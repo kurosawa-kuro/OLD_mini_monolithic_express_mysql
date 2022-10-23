@@ -1,0 +1,39 @@
+# VS Code上でHTTPリクエストを送信し、VS Code上でレスポンスを確認できる「REST Client」拡張の紹介
+# https://qiita.com/toshi0607/items/c4440d3fbfa72eac840c#rest-client%E3%81%A8%E3%81%AF
+
+###
+#createDummy
+POST http://localhost:5000/dummies
+content-type: application/json
+
+{
+    "name": "sample"
+}
+
+
+###
+#readDummies
+GET http://localhost:5000/dummies
+
+###
+#readDummy
+GET http://localhost:5000/dummies/1
+
+###
+#seachDummies
+GET http://localhost:5000/dummies/search?keyword=Doe
+
+
+###
+#updateDummy
+PUT http://localhost:5000/dummies/2
+content-type: application/json
+
+{
+    "name": "updated_name"
+}
+
+###
+#deleteDummy
+DELETE  http://localhost:5000/dummies/2
+content-type: application/json

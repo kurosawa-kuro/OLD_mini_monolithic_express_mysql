@@ -1,0 +1,247 @@
+// const { Op } = require("sequelize");
+const db = require("../../db/models/index")
+
+async function startPost() {
+    console.log("start_post")
+    // console.log({ User })
+
+    // createUser()
+    readPosts()
+    // readUsers2()
+    // readUsers3()
+    // readUser()
+    // searchUsers()
+    // updateUser()
+    // deleteUser()
+    // truncateUsers()
+}
+
+const createUser = async () => {
+    console.log("start createUser")
+    try {
+        // const body = req.body
+        const req = {
+            body: {
+                name: "abc",
+                email: "1bc@abc.com",
+                password: "unhashed_password",
+                role: "normal",
+            }
+        }
+
+        // const foundUserWithEmail = await User.findOne({ where: { email: req.body.email } });
+        const foundUserWithEmail = await db.User.findOne({ where: { email: req.body.email } });
+        // console.log({ foundUserWithId })
+
+        if (foundUserWithEmail) {
+            // res.statusCode = 404
+            throw new Error('user already exists');
+        }
+
+        const user = await User.create(req.body)
+        // console.log("user", JSON.stringify(user, null, 2))
+
+        const msg = "Successfully created User"
+        const data = user
+
+        // return res.status(201).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+
+const readPosts = async () => {
+    console.log("start readPosts")
+    try {
+        const posts = await db.Post.findAll({
+            include: [
+                {
+                    model: db.Tag,
+                    as: 'tags',
+                },
+            ],
+        })
+        console.log("posts", JSON.stringify(posts, null, 2))
+
+        const data = posts
+        const msg = posts.length !== 0 ? "Successfully read Users" : "Successfully read Users but empty"
+
+        // return res.status(200).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const readUsers2 = async () => {
+    console.log("start readUsers2")
+    try {
+        const user = await db.User.findByPk(1)
+        // console.log("users", JSON.stringify(users, null, 2))
+        // console.log({ user })
+
+        const aaaa = user.aaaa()
+        console.log({ aaaa })
+
+        // return res.status(200).json({ isSuccess: true, msg, data })
+        // console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const readUsers3 = async () => {
+    console.log("start readUsers3")
+    try {
+        const [results, metadata] = await sequelize.query("SELECT * FROM users");
+        // console.log("users metadata", JSON.stringify(metadata, null, 2))
+        const msg = "Successfully read User"
+        const data = metadata
+
+        // return res.status(200).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const readUser = async () => {
+    console.log("start readUser")
+    try {
+        // const id = req.params.id
+        const id = 1
+
+        const user = await User.findOne({ where: { id }, include: 'posts' })
+        // console.log("JSON.stringify(user, null, 2)", JSON.stringify(user, null, 2))
+
+        const msg = user ? "Successfully found Users" : "Successfully found Users but empty"
+        const data = user
+
+        // return res.status(200).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const updateUser = async () => {
+    console.log("start updateUser")
+    try {
+        // const id = req.params.id
+        const id = 2
+
+        // const body = req.body
+        const body = {
+            name: "updated name",
+            role: "admin",
+        }
+
+        const foundUserWithId = await User.findByPk(id);
+        // console.log({ foundUserWithId })
+
+        if (!foundUserWithId) {
+            // res.statusCode = 404
+            throw new Error('user not found');
+        }
+
+        await User.update(body, {
+            where: { id }
+        });
+
+        foundUserWithId.name = body.name
+        foundUserWithId.role = body.role
+
+        const msg = "Successfully updated User"
+        const data = foundUserWithId
+
+        // return res.status(201).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const deleteUser = async () => {
+    console.log("start deleteUser")
+    try {
+        // const id = req.params.id
+        const id = 1
+
+        const foundUserWithId = await User.findByPk(id);
+        // console.log({ foundUserWithId })
+
+        if (!foundUserWithId) {
+            // res.statusCode = 404
+            throw new Error('user not found');
+        }
+
+        await User.destroy({
+            where: { id }
+        });
+        const msg = "Successfully deleted User"
+        const data = foundUserWithId
+
+        // return res.status(201).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const searchUsers = async () => {
+    console.log("start searchUsers")
+    try {
+        // const { keyword } = req.query
+        const keyword = "Doe"
+
+        const users = await User.findAll({
+            where: {
+                [Op.or]: [
+                    {
+                        name: {
+                            [Op.like]: '%' + keyword + '%'
+                        }
+                    },
+                    {
+                        email: {
+                            [Op.like]: '%' + keyword + '%'
+                        }
+                    }
+                ]
+            }
+        })
+
+        const data = users
+        const msg = users.length === 0 ? "Successfully searched Users but empty" : "Successfully searched Users"
+
+        // return res.status(200).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+const truncateUsers = async () => {
+    console.log("start truncateUsers")
+
+    try {
+        await User.destroy({
+            truncate: true
+        });
+
+        const data = []
+        const msg = "Successfully truncate Users"
+
+        // return res.status(201).json({ isSuccess: true, msg, data })
+        console.log({ isSuccess: true, msg, data })
+    } catch (error) {
+        console.log({ isSuccess: false, error })
+    }
+}
+
+module.exports = {
+    startPost
+}
+
