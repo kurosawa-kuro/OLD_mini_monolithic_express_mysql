@@ -3,6 +3,7 @@ const path = require('path');
 const ejsMate = require('ejs-mate');
 const asyncHandler = require('express-async-handler')
 const { check } = require('express-validator');
+const { validationResult } = require('express-validator');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const { Campground } = require("../db/models")
@@ -16,6 +17,7 @@ app.set('views', path.join(__dirname, './views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
 
 const validateCampground = (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
@@ -48,7 +50,17 @@ app.get('/campgrounds/:id', asyncHandler(async (req, res) => {
     res.render('campgrounds/show', { campground });
 }));
 
-app.post('/campgrounds', asyncHandler(async (req, res) => {
+app.post('/campgrounds', check('title').isLength({ min: 5 }).withMessage('短すぎます'), asyncHandler(async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        const message = errors.errors[0].msg
+        const stack = ""
+
+        const err = { err: { message, stack } }
+
+        res.status(400).render('error', err);
+    }
+
     const campground = await Campground.create(req.body);
 
     res.redirect(`/campgrounds/${campground.id}`);
