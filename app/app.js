@@ -50,15 +50,12 @@ app.get('/campgrounds/:id', asyncHandler(async (req, res) => {
     res.render('campgrounds/show', { campground });
 }));
 
-app.post('/campgrounds', check('title').isLength({ min: 5 }).withMessage('短すぎます'), asyncHandler(async (req, res) => {
+app.post('/campgrounds', check('title').isLength({ min: 5 }).withMessage('短すぎます'), check('location').isLength({ max: 5 }).withMessage('長すぎます'), asyncHandler(async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        const message = errors.errors[0].msg
-        const stack = ""
+        const msg = errors.errors.map(errors => (errors.param + 'が' + errors.msg)).join(',');;
 
-        const err = { err: { message, stack } }
-
-        res.status(400).render('error', err);
+        throw new ExpressError(msg, 400);
     }
 
     const campground = await Campground.create(req.body);
