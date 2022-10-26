@@ -24,6 +24,7 @@ const validateCampground = (req, res, next) => {
     console.log("req.body", req.body)
     const { error } = campgroundSchema.validate({ campground: req.body });
     if (error) {
+        console.log("error", JSON.stringify(error, null, 2))
         const msg = error.details.map(detail => detail.message).join(',');
         throw new ExpressError(msg, 400);
     } else {
