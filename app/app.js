@@ -6,7 +6,7 @@ const { check } = require('express-validator');
 const { validationResult } = require('express-validator');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
-const { Campground } = require("../db/models")
+const { Campground, Review } = require("../db/models")
 const { campgroundSchema } = require('./schemas');
 
 const app = express();
@@ -48,7 +48,14 @@ app.get('/campgrounds/new', (req, res) => {
 });
 
 app.get('/campgrounds/:id', asyncHandler(async (req, res) => {
-    const campground = await Campground.findByPk(req.params.id);
+    const campground = await Campground.findByPk(req.params.id, {
+        include: [
+            {
+                model: Review,
+                as: 'reviews'
+            }
+        ]
+    });
 
     res.render('campgrounds/show', { campground });
 }));
