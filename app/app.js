@@ -97,6 +97,26 @@ app.delete('/campgrounds/:id', asyncHandler(async (req, res) => {
     res.redirect('/campgrounds');
 }));
 
+app.post('/campgrounds/:id/reviews', asyncHandler(async (req, res) => {
+    const campground = await Campground.findByPk(req.params.id);
+    req.body.campground_id = req.params.id
+    req.body.created_at = new Date()
+    req.body.updated_at = new Date()
+    await Review.create(req.body);
+
+    res.redirect(`/campgrounds/${campground.id}`);
+}));
+
+app.delete('/campgrounds/:id/reviews/:reviewId', asyncHandler(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Review.destroy({
+        where: {
+            id: reviewId
+        }
+    })
+    res.redirect(`/campgrounds/${id}`);
+}));
+
 app.all('*', (req, res, next) => {
     next(new ExpressError('ページが見つかりませんでした', 404));
 });
