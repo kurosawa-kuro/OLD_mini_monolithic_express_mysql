@@ -10,6 +10,7 @@ module.exports = {
       [
         {
           title: faker.commerce.productName(),
+          image: faker.image.image(),
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
@@ -17,6 +18,7 @@ module.exports = {
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
           title: faker.commerce.productName(),
+          image: faker.image.image(),
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
@@ -24,6 +26,7 @@ module.exports = {
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
           title: faker.commerce.productName(),
+          image: faker.image.image(),
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
@@ -31,6 +34,7 @@ module.exports = {
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
           title: faker.commerce.productName(),
+          image: faker.image.image(),
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
@@ -38,6 +42,7 @@ module.exports = {
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
           title: faker.commerce.productName(),
+          image: faker.image.image(),
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),

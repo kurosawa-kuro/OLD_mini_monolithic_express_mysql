@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Campground.init({
     title: DataTypes.STRING,
+    image: DataTypes.STRING,
     price: DataTypes.STRING,
     description: DataTypes.STRING,
     location: DataTypes.STRING,
