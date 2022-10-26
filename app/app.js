@@ -57,8 +57,6 @@ app.get('/campgrounds/:id', asyncHandler(async (req, res) => {
         ]
     });
 
-    console.log({ campground })
-
     res.render('campgrounds/show', { campground });
 }));
 
