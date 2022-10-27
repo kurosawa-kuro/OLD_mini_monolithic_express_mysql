@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const asyncHandler = require('express-async-handler')
-const { check } = require('express-validator');
 const { validationResult } = require('express-validator');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
@@ -76,12 +75,12 @@ app.get('/campgrounds/:id', asyncHandler(async (req, res) => {
 }));
 
 app.post('/campgrounds', validateCampground, asyncHandler(async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        const msg = errors.errors.map(errors => (errors.param + 'が' + errors.msg)).join(',');;
+    // const errors = validationResult(req);
+    // if (!errors.isEmpty()) {
+    //     const msg = errors.errors.map(errors => (errors.param + 'が' + errors.msg)).join(',');;
 
-        throw new ExpressError(msg, 400);
-    }
+    //     throw new ExpressError(msg, 400);
+    // }
 
     const campground = await Campground.create(req.body);
 
