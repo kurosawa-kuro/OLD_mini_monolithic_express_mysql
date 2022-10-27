@@ -6,6 +6,9 @@ const { check } = require('express-validator');
 const { validationResult } = require('express-validator');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
+const session = require('express-session');
+const flash = require('connect-flash');
+
 const { Campground, Review } = require("../db/models")
 const { campgroundSchema } = require('./schemas');
 
@@ -18,6 +21,18 @@ app.set('views', path.join(__dirname, './views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
+
+const sessionConfig = {
+    secret: 'mysecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+app.use(session(sessionConfig));
+app.use(flash());
 
 
 const validateCampground = (req, res, next) => {
