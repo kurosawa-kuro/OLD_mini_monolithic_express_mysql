@@ -12,7 +12,6 @@ const reviewRoutes = require('./routes/reviews.js');
 const app = express();
 
 app.engine('ejs', ejsMate);
-
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
 
