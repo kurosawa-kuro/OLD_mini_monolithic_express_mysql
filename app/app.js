@@ -137,6 +137,7 @@ app.post('/campgrounds/:id/reviews', asyncHandler(async (req, res) => {
     req.body.updated_at = new Date()
     await Review.create(req.body);
 
+    req.flash('success', 'レビューを登録しました');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
@@ -147,6 +148,8 @@ app.delete('/campgrounds/:id/reviews/:reviewId', asyncHandler(async (req, res) =
             id: reviewId
         }
     })
+
+    req.flash('success', 'レビューを削除しました');
     res.redirect(`/campgrounds/${id}`);
 }));
 
