@@ -17,6 +17,7 @@ const { Campground, Review } = require("../../db/models")
 
 router.get('/', asyncHandler(async (req, res) => {
     const campgrounds = await Campground.findAll({ raw: true });
+    console.log({ campgrounds })
 
     res.render('campgrounds/index', { campgrounds });
 }));
