@@ -77,10 +77,15 @@ app.get('/campgrounds/:id', asyncHandler(async (req, res) => {
         ]
     });
 
+    if (!campground) {
+        req.flash('error', 'キャンプ場は見つかりませんでした');
+        return res.redirect('/campgrounds');
+    }
+
     res.render('campgrounds/show', { campground });
 }));
 
-app.post('/campgrounds', validateCampground, asyncHandler(async (req, res) => {
+app.post('/campgrounds', asyncHandler(async (req, res) => {
     // const errors = validationResult(req);
     // if (!errors.isEmpty()) {
     //     const msg = errors.errors.map(errors => (errors.param + 'が' + errors.msg)).join(',');;
@@ -90,11 +95,17 @@ app.post('/campgrounds', validateCampground, asyncHandler(async (req, res) => {
 
     const campground = await Campground.create(req.body);
 
+    req.flash('success', '新しいキャンプ場を登録しました');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
 app.get('/campgrounds/:id/edit', asyncHandler(async (req, res) => {
     const campground = await Campground.findByPk(req.params.id);
+
+    if (!campground) {
+        req.flash('error', 'キャンプ場は見つかりませんでした');
+        return res.redirect('/campgrounds');
+    }
 
     res.render('campgrounds/edit', { campground });
 }));
@@ -105,6 +116,7 @@ app.put('/campgrounds/:id', asyncHandler(async (req, res) => {
         where: { id }
     });
 
+    req.flash('success', 'キャンプ場を更新しました');
     res.redirect(`/campgrounds/${id}`);
 }));
 
@@ -114,6 +126,7 @@ app.delete('/campgrounds/:id', asyncHandler(async (req, res) => {
         where: { id }
     });
 
+    req.flash('success', 'キャンプ場を削除しました');
     res.redirect('/campgrounds');
 }));
 
