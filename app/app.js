@@ -1,14 +1,11 @@
 const express = require('express');
 const path = require('path');
 const ejsMate = require('ejs-mate');
-const asyncHandler = require('express-async-handler')
-const { validationResult } = require('express-validator');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 
-const { Campground, Review } = require("../db/models")
 const { campgroundSchema } = require('./schemas');
 
 const campgroundRoutes = require('./routes/campgrounds.js');
