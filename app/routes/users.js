@@ -1,6 +1,6 @@
 const express = require('express');
 const asyncHandler = require('express-async-handler')
-const bcrypt = require("bcrypt");
+
 const passport = require("passport");
 
 const db = require("../../db/models/")
@@ -13,20 +13,17 @@ router.get('/register', (req, res) => {
 });
 
 router.post('/register', asyncHandler(async (req, res, next) => {
-    const foundUserWithEmail = await db.User.findOne({ where: { email: req.body.email } });
+    const registeredUser = await db.User.register(req.body);
+    // const foundUserWithEmail = await db.User.findOne({ where: { email: req.body.email } });
 
-    if (foundUserWithEmail) {
-        res.statusCode = 404
-        throw new Error('user already exists');
-    }
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    req.body.password = hashedPassword
-    const user = await db.User.create(req.body)
-    try {
-        req.session.passport = { user: user.id }
-    } catch (error) {
-        console.log({ error })
-    }
+    // if (foundUserWithEmail) {
+    //     res.statusCode = 404
+    //     throw new Error('user already exists');
+    // }
+    // const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    // req.body.password = hashedPassword
+    // const user = await db.User.create(req.body)
+    req.session.passport = { user: registeredUser.id }
 
     res.redirect('/campgrounds');
 }))

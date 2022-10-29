@@ -1,9 +1,29 @@
 'use strict';
+
+const bcrypt = require("bcrypt");
+
 const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
+
+    static async register(user) {
+      // define association here
+      console.log({ user })
+      const foundUserWithEmail = await this.findOne({ where: { email: user.email } });
+      console.log({ foundUserWithEmail })
+
+      if (foundUserWithEmail) {
+        throw new Error('user already exists');
+      }
+
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      user.password = hashedPassword
+      const registeredUser = await this.create(user)
+
+      return registeredUser
+    }
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

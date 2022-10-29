@@ -16,6 +16,7 @@ const { Campground, Review } = require("../../db/models")
 // }
 
 router.get('/', asyncHandler(async (req, res) => {
+    // console.log("req.user", req.user)
     const isAuth = Boolean(req.user);
     console.log({ isAuth })
 
