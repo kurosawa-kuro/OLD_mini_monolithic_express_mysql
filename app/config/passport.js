@@ -27,7 +27,7 @@ module.exports = function (app) {
             //     username: foundUserWithEmail.dataValues.username,
             //     email: foundUserWithEmail.dataValues.email
             // });
-            done(null, {});
+            done(null, user);
         } catch (error) {
             done(error, null);
         }

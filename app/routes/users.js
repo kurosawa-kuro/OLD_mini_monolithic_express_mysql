@@ -23,8 +23,16 @@ router.post('/register', async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(req.body.password, 10);
         req.body.password = hashedPassword
         const user = await db.User.create(req.body)
+        console.log({ user })
+        try {
+            req.session.passport = { user: user.id }
+        } catch (error) {
+            console.log({ error })
+        }
+
+        res.redirect('/campgrounds');
     } catch (e) {
-        req.flash('error', e.message);
+        // req.flash('error', e.message);
         res.redirect('/register');
     }
 });
