@@ -16,13 +16,8 @@ const { Campground, Review } = require("../../db/models")
 // }
 
 router.get('/', asyncHandler(async (req, res) => {
-    console.log("req.session", req.session)
-    if (req.session.passport === undefined) {
-        console.log("req.session.passport undefined")
-    } else {
-        const isAuth = Boolean(req.session.passport.user);
-        console.log({ isAuth })
-    }
+    const isAuth = Boolean(req.user);
+    console.log({ isAuth })
 
     const campgrounds = await Campground.findAll({ raw: true });
 

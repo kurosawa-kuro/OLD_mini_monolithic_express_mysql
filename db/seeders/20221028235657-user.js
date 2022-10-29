@@ -10,7 +10,7 @@ module.exports = {
       [
         {
           id: 1,
-          username: faker.commerce.productName(),
+          name: faker.commerce.productName(),
           email: faker.commerce.productName(),
           password: faker.commerce.productName(),
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),

@@ -27,12 +27,17 @@ module.exports = function (app) {
         passwordField: "password",
     }, async function (email, password, done) {
         const foundUserWithEmail = await db.User.findOne({ where: { email } });
+
+        if (!foundUserWithEmail) {
+            done(null, false, { message: "Invalid User" })
+        }
+
         const isValidUser = await bcrypt.compare(password, foundUserWithEmail.password)
 
         if (isValidUser) {
             done(null, foundUserWithEmail.dataValues)
         } else {
-            done(null, false, { message: "Invalid User" })
+            done(null, false, { message: "Invalid Credential" })
         }
     }
     ));
