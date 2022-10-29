@@ -26,8 +26,6 @@ app.use(
 
 app.use(flash());
 
-
-
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
@@ -38,11 +36,9 @@ app.use(methodOverride('_method'));
 require("./config/passport")(app);
 
 app.use((req, res, next) => {
-
     res.locals.currentUser = req.user;
     res.locals.success = req.flash('success');
     res.locals.error = req.flash('error');
-    console.log("res.locals", res.locals)
 
     next();
 });

@@ -9,10 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
 
     static async register(user) {
-      // define association here
-      console.log({ user })
       const foundUserWithEmail = await this.findOne({ where: { email: user.email } });
-      console.log({ foundUserWithEmail })
 
       if (foundUserWithEmail) {
         throw new Error('user already exists');
@@ -23,6 +20,22 @@ module.exports = (sequelize, DataTypes) => {
       const registeredUser = await this.create(user)
 
       return registeredUser
+    }
+
+    static async login(user) {
+      const foundUserWithEmail = await this.findOne({ where: { email: user.email } });
+
+      if (!foundUserWithEmail) {
+        throw new Error('user not found');
+      }
+
+      const isValidUser = await bcrypt.compare(user.password, foundUserWithEmail.password)
+
+      if (!isValidUser) {
+        throw new Error('Invalid Credential');
+      }
+
+      return foundUserWithEmail
     }
     /**
      * Helper method for defining associations.
