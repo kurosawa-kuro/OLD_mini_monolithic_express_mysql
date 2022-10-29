@@ -47,13 +47,14 @@
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title">評価：<%= review.rating %></h5>
-                
+                <h6 class="card-subtitle mb-2 text-muted"><%= review.user.name %></h6>
                 <p class="card-text">コメント：<%= review.body %></p>
-                
+                <% if(currentUser && review.user.id == currentUser.id) { %> 
                 <form action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
                     method="POST">
                     <button class="btn btn-sm btn-danger">削除する</button>
                 </form>
+                <% } %> 
             </div>
         </div>
         <% } %>

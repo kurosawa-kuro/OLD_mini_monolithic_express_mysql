@@ -38,7 +38,13 @@ router.get('/:id', asyncHandler(async (req, res) => {
         include: [
             {
                 model: Review,
-                as: 'reviews'
+                as: 'reviews',
+                include: [
+                    {
+                        model: User,
+                        as: 'user'
+                    }
+                ]
             },
             {
                 model: User,
