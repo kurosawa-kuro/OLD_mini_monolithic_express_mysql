@@ -27,15 +27,14 @@ module.exports = function (app) {
         passwordField: "password",
     }, async function (email, password, done) {
         const user = { email, password }
-        const loggedinUser = await db.User.login(user)
+        const res = await db.User.login(user)
 
-        if (loggedinUser) {
-            done(null, loggedinUser)
+        if (res.error === undefined) {
+            done(null, res.loggedinUser)
         } else {
-            done(null, false, { message: "Invalid Credential" })
+            done(null, false, { message: res.error })
         }
-    }
-    ));
+    }));
 
     app.use(
         cookieSession({

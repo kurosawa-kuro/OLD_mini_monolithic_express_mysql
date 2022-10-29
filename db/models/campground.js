@@ -14,6 +14,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'campground_id',
         as: 'reviews'
       });
+      Campground.belongsTo(models.User, {
+        foreignKey: 'user_id',
+        as: 'user'
+      });
     }
   }
   Campground.init({

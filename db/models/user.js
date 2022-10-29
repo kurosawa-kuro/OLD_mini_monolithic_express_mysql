@@ -26,16 +26,17 @@ module.exports = (sequelize, DataTypes) => {
       const foundUserWithEmail = await this.findOne({ where: { email: user.email } });
 
       if (!foundUserWithEmail) {
-        throw new Error('user not found');
+        return { foundUserWithEmail, error: "user not found" }
       }
 
       const isValidUser = await bcrypt.compare(user.password, foundUserWithEmail.password)
 
+
       if (!isValidUser) {
-        throw new Error('Invalid Credential');
+        return { foundUserWithEmail, error: "invalid credintial data" }
       }
 
-      return foundUserWithEmail
+      return { loggedinUser: foundUserWithEmail, error: undefined }
     }
     /**
      * Helper method for defining associations.
@@ -43,7 +44,10 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      User.hasMany(models.Campground, {
+        foreignKey: 'user_id',
+        as: 'campgrounds'
+      });
     }
   }
   User.init({

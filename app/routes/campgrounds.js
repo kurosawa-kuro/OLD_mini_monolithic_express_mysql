@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler')
+
 const ExpressError = require('../utils/ExpressError');
-const { Campground, Review } = require("../../db/models")
+const { Campground, Review, User } = require("../../db/models")
+const { isLoggedIn } = require('../middleware/isLoggedIn');
+const { isUser } = require('../middleware/isUser');
 // const { campgroundSchema } = require('../schemas');
 
 // const validateCampground = (req, res, next) => {
@@ -25,7 +28,8 @@ router.get('/', asyncHandler(async (req, res) => {
     res.render('campgrounds/index', { campgrounds });
 }));
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
+
     res.render('campgrounds/new');
 });
 
@@ -35,10 +39,15 @@ router.get('/:id', asyncHandler(async (req, res) => {
             {
                 model: Review,
                 as: 'reviews'
+            },
+            {
+                model: User,
+                as: 'user'
             }
         ]
     });
 
+    console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
     if (!campground) {
         req.flash('error', 'キャンプ場は見つかりませんでした');
         return res.redirect('/campgrounds');
@@ -47,15 +56,17 @@ router.get('/:id', asyncHandler(async (req, res) => {
     res.render('campgrounds/show', { campground });
 }));
 
-router.post('/', asyncHandler(async (req, res) => {
+router.post('/', isLoggedIn, asyncHandler(async (req, res) => {
     // if (!req.body.campground) throw new ExpressError('不正なキャンプ場のデータです', 400);
+
+    req.body.user_id = req.user.id
     const campground = await Campground.create(req.body);
 
     req.flash('success', '新しいキャンプ場を登録しました');
     res.redirect(`/campgrounds/${campground.id}`);
 }));
 
-router.get('/:id/edit', asyncHandler(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, isUser, asyncHandler(async (req, res) => {
     const campground = await Campground.findByPk(req.params.id);
 
     if (!campground) {
@@ -66,7 +77,7 @@ router.get('/:id/edit', asyncHandler(async (req, res) => {
     res.render('campgrounds/edit', { campground });
 }));
 
-router.put('/:id', asyncHandler(async (req, res) => {
+router.put('/:id', isLoggedIn, asyncHandler(async (req, res) => {
     const { id } = req.params;
     await Campground.update(req.body, {
         where: { id }
@@ -76,7 +87,7 @@ router.put('/:id', asyncHandler(async (req, res) => {
     res.redirect(`/campgrounds/${id}`);
 }));
 
-router.delete('/:id', asyncHandler(async (req, res) => {
+router.delete('/:id', isLoggedIn, asyncHandler(async (req, res) => {
     const { id } = req.params;
     await Campground.destroy({
         where: { id }
