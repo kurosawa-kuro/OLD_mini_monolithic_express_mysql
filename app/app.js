@@ -1,15 +1,31 @@
 const express = require('express');
+const logger = require('morgan');
 const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const cookieSession = require("cookie-session");
 
 const ExpressError = require('./utils/ExpressError');
+const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds.js');
 const reviewRoutes = require('./routes/reviews.js');
 
 const app = express();
+
+app.use(logger('dev'));
+
+const secret = "secretCuisine123";
+app.use(
+    cookieSession({
+        name: "session",
+        keys: [secret],
+
+        // Cookie Options
+        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    })
+);
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
@@ -36,10 +52,12 @@ app.use((req, res, next) => {
     next();
 });
 
+
 app.get('/', (req, res) => {
     res.render('top');
 });
 
+app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 
