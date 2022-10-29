@@ -9,8 +9,8 @@ const db = require("../../db/models")
 module.exports = function (app) {
     passport.serializeUser(function (user, done) {
         console.log("passport.serializeUser")
-        console.log({ user })
-        console.log("user.id", user.id)
+        // console.log({ user })
+        // console.log("user.id", user.id)
         done(null, user.id);
     });
 
@@ -21,9 +21,13 @@ module.exports = function (app) {
             console.log("□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□□")
             console.log({ id })
             const foundUserWithEmail = await db.User.findByPk(id);
-            // console.log({ foundUserWithEmail })
+            // console.log("foundUserWithEmail.dataValues", foundUserWithEmail.dataValues)
             const user = foundUserWithEmail.dataValues;
-            done(null, user);
+            // done(null, {
+            //     username: foundUserWithEmail.dataValues.username,
+            //     email: foundUserWithEmail.dataValues.email
+            // });
+            done(null, {});
         } catch (error) {
             done(error, null);
         }
@@ -58,5 +62,6 @@ module.exports = function (app) {
         })
     );
 
+    app.use(passport.initialize())
     app.use(passport.session());
 };
