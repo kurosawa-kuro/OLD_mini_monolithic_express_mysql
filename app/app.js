@@ -4,8 +4,8 @@ const path = require('path');
 const ejsMate = require('ejs-mate');
 const methodOverride = require('method-override');
 const cookieSession = require("cookie-session");
+const flash = require('connect-flash');
 const secret = "secretCuisine123";
-
 
 const ExpressError = require('./utils/ExpressError');
 const userRoutes = require('./routes/users');
@@ -20,11 +20,17 @@ app.use(
     cookieSession({
         name: "session",
         keys: [secret],
-
-        // Cookie Options
-        maxAge: 24 * 60 * 60 * 1000, // 24 hours
+        maxAge: 24 * 60 * 60 * 1000,
     })
 );
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success');
+    res.locals.error = req.flash('error');
+    next();
+});
 
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
