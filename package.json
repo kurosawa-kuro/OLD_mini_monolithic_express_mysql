@@ -51,6 +51,8 @@
     "jsonwebtoken": "^8.5.1",
     "method-override": "^3.0.0",
     "mysql2": "^2.3.3",
+    "passport": "^0.5.3",
+    "passport-local": "^1.0.0",
     "path": "^0.12.7",
     "sequelize": "^6.25.0",
     "sqlite3": "^5.1.2"

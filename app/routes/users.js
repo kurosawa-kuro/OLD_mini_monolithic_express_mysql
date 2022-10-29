@@ -1,5 +1,6 @@
 const express = require('express');
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 const router = express.Router();
 
@@ -33,23 +34,31 @@ router.get('/login', (req, res) => {
     res.render('users/login');
 });
 
-router.post('/login', async (req, res, next) => {
-    try {
-        console.log("hit post login")
-
-        const foundUserWithEmail = await db.User.findOne({ where: { username: req.body.username } });
-        console.log({ foundUserWithEmail })
-        req.session.userid = foundUserWithEmail.id;
-
-        const comparedPassword = await bcrypt.compare(req.body.password, foundUserWithEmail.password);
-        console.log({ comparedPassword })
-
-        res.redirect('/register');
-    } catch (e) {
-        req.flash('error', e.message);
-        res.redirect('/register');
+router.post('/login', passport.authenticate('local',
+    {
+        successRedirect: '/campgrounds',
+        failureRedirect: '/login',
+        failureFlash: true,
     }
-});
+));
+
+// router.post('/login', async (req, res, next) => {
+//     try {
+//         console.log("hit post login")
+
+//         const foundUserWithEmail = await db.User.findOne({ where: { username: req.body.username } });
+//         console.log({ foundUserWithEmail })
+//         req.session.userid = foundUserWithEmail.id;
+
+//         const comparedPassword = await bcrypt.compare(req.body.password, foundUserWithEmail.password);
+//         console.log({ comparedPassword })
+
+//         res.redirect('/register');
+//     } catch (e) {
+//         req.flash('error', e.message);
+//         res.redirect('/register');
+//     }
+// });
 
 router.get('/logout', (req, res) => {
     req.session = null;
