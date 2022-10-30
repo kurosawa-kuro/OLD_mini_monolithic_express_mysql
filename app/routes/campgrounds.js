@@ -53,7 +53,7 @@ router.get('/:id', asyncHandler(async (req, res) => {
         ]
     });
 
-    console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
+    // console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
     if (!campground) {
         req.flash('error', 'キャンプ場は見つかりませんでした');
         return res.redirect('/campgrounds');
