@@ -24,8 +24,6 @@ app.use(
     })
 );
 
-
-
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 

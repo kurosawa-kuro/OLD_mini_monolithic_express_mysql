@@ -2,39 +2,18 @@ const express = require('express');
 const asyncHandler = require('express-async-handler')
 const passport = require("passport");
 
-const db = require("../../db/models/")
+const users = require('../controllers/users');
 
 const router = express.Router();
 
-router.get('/register', (req, res) => {
+router.route('/register')
+    .get(users.renderRegister)
+    .post(users.register);
 
-    res.render('users/register');
-});
+router.route('/login')
+    .get(users.renderLogin)
+    .post(passport.authenticate('local', { failureFlash: true, failureRedirect: '/login' }), users.login);
 
-router.post('/register', asyncHandler(async (req, res, next) => {
-    const registeredUser = await db.User.register(req.body);
-    req.session.passport = { user: registeredUser.id }
-
-    res.redirect('/campgrounds');
-}))
-
-router.get('/login', (req, res) => {
-
-    res.render('users/login');
-});
-
-router.post('/login', passport.authenticate('local',
-    {
-        successRedirect: '/campgrounds',
-        failureRedirect: '/login',
-        failureFlash: true,
-    }
-));
-
-router.get('/logout', (req, res) => {
-    req.session = null;
-
-    res.redirect('/campgrounds');
-});
+router.get('/logout', users.logout);
 
 module.exports = router;
