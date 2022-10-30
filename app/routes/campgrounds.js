@@ -10,10 +10,6 @@ router.route('/')
     .get(asyncHandler(campgrounds.index))
     .post(isLoggedIn, asyncHandler(campgrounds.createCampground));
 
-router.route('/')
-    .get(asyncHandler(campgrounds.index))
-    .post(isLoggedIn, asyncHandler(campgrounds.createCampground));
-
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
 
 router.route('/:id')

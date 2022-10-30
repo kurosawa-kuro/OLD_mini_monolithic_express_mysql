@@ -9,10 +9,12 @@ module.exports.register = async (req, res, next) => {
 
         req.login(registeredUser, err => {
             if (err) return next(err);
+
             req.flash('success', 'Yelp Campへようこそ');
             res.redirect('/campgrounds');
         })
     } catch (e) {
+
         req.flash('error', e.message);
         res.redirect('/register');
     }
@@ -26,6 +28,7 @@ module.exports.login = (req, res) => {
     req.flash('success', 'おかえりなさい！！');
     const redirectUrl = req.session.returnTo || '/campgrounds';
     delete req.session.returnTo;
+
     res.redirect(redirectUrl);
 }
 

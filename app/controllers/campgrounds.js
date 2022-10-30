@@ -13,7 +13,6 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.showCampground = async (req, res) => {
     const campground = await Campground.findByPk(req.params.id, {
-        // raw: true,
         include: [
             {
                 model: Review,
