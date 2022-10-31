@@ -1,1 +1,9 @@
-<h1>Top</h1>
+<% layout('layouts/boilerplate') %>
+<h1 class="mb-5">Top</h1>
+
+
+<% if(currentUser?.name){ %> 
+    <h2>ようこそ。 <%= currentUser?.name %>さん</h2>
+<% } else { %>  
+    <h2>ログインされていません</h2>
+<% } %> 
