@@ -1,0 +1,11 @@
+<% layout('layouts/boilerplate') %>
+<h1 class="mb-5">Debug</h1>
+
+
+<% if(currentUser?.name){ %> 
+    <h2>ようこそ。 <%= currentUser?.name %>さん</h2>
+<% } else { %>  
+    <h2>ログインされていません</h2>
+<% } %> 
+
+<a class="nav-link" href="/logout">ログアウト</a>

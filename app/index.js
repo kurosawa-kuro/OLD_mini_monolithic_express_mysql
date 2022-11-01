@@ -46,6 +46,10 @@ app.get('/', (req, res) => {
     res.render('top');
 });
 
+app.get('/debug', (req, res) => {
+    res.render('debug');
+});
+
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
