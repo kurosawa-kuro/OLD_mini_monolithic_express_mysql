@@ -45,6 +45,7 @@ module.exports.createCampground = async (req, res) => {
     console.log("req.file", req.file)
     // if (!req.body.campground) throw new ExpressError('不正なキャンプ場のデータです', 400);
     req.body.user_id = req.user.id;
+    req.body.image = req.file.path;
     const campground = await Campground.create(req.body);
 
     req.flash('success', '新しいキャンプ場を登録しました');

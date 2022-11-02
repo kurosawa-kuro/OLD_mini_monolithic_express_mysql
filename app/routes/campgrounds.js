@@ -8,8 +8,8 @@ const { isUser } = require('../middleware/isUser');
 
 const multer = require('multer')
 const { storage } = require('../cloudinary');
-// const upload = multer({ storage })
-const upload = multer({ dest: 'app/uploads/' })
+const upload = multer({ storage })
+// const upload = multer({ dest: 'app/uploads/' })
 
 
 router.route('/')
