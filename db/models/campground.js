@@ -18,6 +18,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         as: 'user'
       });
+      Campground.hasMany(models.CampgroundImage, {
+        foreignKey: 'campground_id',
+        as: 'campground_images'
+      });
     }
   }
   Campground.init({
