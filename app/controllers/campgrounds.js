@@ -1,7 +1,9 @@
-const { Campground, Review, User, CampgroundImage } = require("../../db/models")
+const asyncHandler = require('express-async-handler')
+
+const { Campground, Review, User, CampgroundImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
-module.exports.index = async (req, res) => {
+module.exports.index = asyncHandler(async (req, res) => {
     const campgrounds = await Campground.findAll({
         include: [
             {
@@ -10,16 +12,16 @@ module.exports.index = async (req, res) => {
             }
         ]
     });
-    console.log("JSON.stringify(campgrounds, null, 2)", JSON.stringify(campgrounds, null, 2))
+
     res.render('campgrounds/index', { campgrounds });
-}
+})
 
 module.exports.renderNewForm = (req, res) => {
 
     res.render('campgrounds/new');
 }
 
-module.exports.showCampground = async (req, res) => {
+module.exports.showCampground = asyncHandler(async (req, res) => {
     const campground = await Campground.findByPk(req.params.id, {
         include: [
             {
@@ -49,27 +51,35 @@ module.exports.showCampground = async (req, res) => {
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
-}
+})
 
-module.exports.createCampground = async (req, res) => {
-    console.log("req.body", req.body)
-    console.log("req.file", req.file)
+module.exports.createCampground = asyncHandler(async (req, res) => {
     // if (!req.body.campground) throw new ExpressError('不正なキャンプ場のデータです', 400);
-    req.body.user_id = req.user.id;
-    req.body.image = req.file.path;
-    const campground = await Campground.create(req.body);
+    // const t = await sequelize.transaction();
+    try {
+        req.body.user_id = req.user.id;
+        const campground = await Campground.create(req.body);
 
-    CampgroundImage.create({
-        campground_id: campground.id,
-        filename: req.file.filename,
-        path: req.file.path
-    })
+        const filename = req.file?.filename ? req.file.filename : null
+        const path = req.file?.path ? req.file.path : null
 
-    req.flash('success', '新しいキャンプ場を登録しました');
-    res.redirect(`/campgrounds/${campground.id}`);
-}
+        CampgroundImage.create({
+            campground_id: campground.id,
+            filename,
+            path
+        })
 
-module.exports.renderEditForm = async (req, res) => {
+        // await t.commit();
+
+        req.flash('success', '新しいキャンプ場を登録しました');
+        res.redirect(`/campgrounds/${campground.id}`);
+    } catch (error) {
+        console.log({ error })
+        // await t.rollback();
+    }
+})
+
+module.exports.renderEditForm = asyncHandler(async (req, res) => {
     const campground = await Campground.findByPk(req.params.id);
     if (!campground) {
         req.flash('error', 'キャンプ場は見つかりませんでした');
@@ -77,9 +87,9 @@ module.exports.renderEditForm = async (req, res) => {
     }
 
     res.render('campgrounds/edit', { campground });
-}
+})
 
-module.exports.updateCampground = async (req, res) => {
+module.exports.updateCampground = asyncHandler(async (req, res) => {
     const { id } = req.params;
 
     await Campground.update(
@@ -94,9 +104,9 @@ module.exports.updateCampground = async (req, res) => {
 
     req.flash('success', 'キャンプ場を更新しました');
     res.redirect(`/campgrounds/${id}`);
-}
+})
 
-module.exports.deleteCampground = async (req, res) => {
+module.exports.deleteCampground = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const campgroundImage = await CampgroundImage.findAll(
         { where: { campground_id: id } })
@@ -108,4 +118,4 @@ module.exports.deleteCampground = async (req, res) => {
 
     req.flash('success', 'キャンプ場を削除しました');
     res.redirect('/campgrounds');
-}
+})
