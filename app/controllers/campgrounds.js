@@ -84,7 +84,14 @@ module.exports.createCampground = async (req, res) => {
 }
 
 module.exports.renderEditForm = async (req, res) => {
-    const campground = await Campground.findByPk(req.params.id);
+    const campground = await Campground.findByPk(req.params.id, {
+        include: [
+            {
+                model: CampgroundImage,
+                as: 'campground_images'
+            }
+        ]
+    });
     if (!campground) {
         req.flash('error', 'キャンプ場は見つかりませんでした');
         return res.redirect('/campgrounds');
