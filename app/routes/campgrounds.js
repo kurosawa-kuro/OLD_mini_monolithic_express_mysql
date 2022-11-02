@@ -7,9 +7,20 @@ const { isLoggedIn } = require('../middleware/isLoggedIn');
 const { isUser } = require('../middleware/isUser');
 
 const multer = require('multer')
-const { storage } = require('../cloudinary');
-const upload = multer({ storage })
-// const upload = multer({ dest: 'app/uploads/' })
+// const { storage } = require('../cloudinary');
+// const upload = multer({ storage })
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'app/uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname)
+    }
+})
+const upload = multer({ storage: storage })
+
+
 
 
 router.route('/')

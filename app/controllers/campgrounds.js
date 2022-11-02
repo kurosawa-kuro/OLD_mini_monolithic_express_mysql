@@ -3,7 +3,7 @@ const asyncHandler = require('express-async-handler')
 const { Campground, Review, User, CampgroundImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
-module.exports.index = asyncHandler(async (req, res) => {
+module.exports.index = async (req, res) => {
     const campgrounds = await Campground.findAll({
         include: [
             {
@@ -14,14 +14,14 @@ module.exports.index = asyncHandler(async (req, res) => {
     });
 
     res.render('campgrounds/index', { campgrounds });
-})
+}
 
 module.exports.renderNewForm = (req, res) => {
 
     res.render('campgrounds/new');
 }
 
-module.exports.showCampground = asyncHandler(async (req, res) => {
+module.exports.showCampground = async (req, res) => {
     const campground = await Campground.findByPk(req.params.id, {
         include: [
             {
@@ -51,7 +51,7 @@ module.exports.showCampground = asyncHandler(async (req, res) => {
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
-})
+}
 
 module.exports.createCampground = async (req, res) => {
     // if (!req.body.campground) throw new ExpressError('不正なキャンプ場のデータです', 400);
@@ -61,7 +61,8 @@ module.exports.createCampground = async (req, res) => {
 
             req.body.user_id = req.user.id;
             const campground = await Campground.create(req.body);
-
+            console.log("req.file ", req.file)
+            // ここでUtilからファイル拡張子を付与する
             const filename = req.file?.filename ? req.file.filename : null
             const path = req.file?.path ? req.file.path : null
 
@@ -82,7 +83,7 @@ module.exports.createCampground = async (req, res) => {
     res.redirect(`/campgrounds/${campgroundTransactionResult.id}`);
 }
 
-module.exports.renderEditForm = asyncHandler(async (req, res) => {
+module.exports.renderEditForm = async (req, res) => {
     const campground = await Campground.findByPk(req.params.id);
     if (!campground) {
         req.flash('error', 'キャンプ場は見つかりませんでした');
@@ -90,9 +91,9 @@ module.exports.renderEditForm = asyncHandler(async (req, res) => {
     }
 
     res.render('campgrounds/edit', { campground });
-})
+}
 
-module.exports.updateCampground = asyncHandler(async (req, res) => {
+module.exports.updateCampground = async (req, res) => {
     const { id } = req.params;
 
     await Campground.update(
@@ -107,9 +108,9 @@ module.exports.updateCampground = asyncHandler(async (req, res) => {
 
     req.flash('success', 'キャンプ場を更新しました');
     res.redirect(`/campgrounds/${id}`);
-})
+}
 
-module.exports.deleteCampground = asyncHandler(async (req, res) => {
+module.exports.deleteCampground = async (req, res) => {
     const { id } = req.params;
     const campgroundImage = await CampgroundImage.findAll(
         { where: { campground_id: id } })
@@ -121,4 +122,4 @@ module.exports.deleteCampground = asyncHandler(async (req, res) => {
 
     req.flash('success', 'キャンプ場を削除しました');
     res.redirect('/campgrounds');
-})
+}
