@@ -8,12 +8,13 @@ const { isUser } = require('../middleware/isUser');
 
 const multer = require('multer')
 const { storage } = require('../cloudinary');
-const upload = multer({ storage })
+// const upload = multer({ storage })
+const upload = multer({ dest: 'uploads/' })
 
 
 router.route('/')
     .get(asyncHandler(campgrounds.index))
-    .post(isLoggedIn, upload.array('image'), asyncHandler(campgrounds.createCampground));
+    .post(isLoggedIn, upload.single('image'), asyncHandler(campgrounds.createCampground));
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm);
 
