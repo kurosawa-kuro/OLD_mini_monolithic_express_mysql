@@ -58,16 +58,12 @@ module.exports.createCampground = async (req, res) => {
     req.body.user_id = req.user.id;
     req.body.image = req.file.path;
     const campground = await Campground.create(req.body);
-    console.log({ campground })
-    // const CampgroundImage = await CampgroundImage.create({
-    //     campground_id: 1
-    // });
-    const campgroundImage = await CampgroundImage.create({
-        campground_id: 1,
+
+    CampgroundImage.create({
+        campground_id: campground.id,
         filename: req.file.filename,
         path: req.file.path
     })
-    console.log({ campgroundImage })
 
     req.flash('success', '新しいキャンプ場を登録しました');
     res.redirect(`/campgrounds/${campground.id}`);
@@ -86,9 +82,15 @@ module.exports.renderEditForm = async (req, res) => {
 module.exports.updateCampground = async (req, res) => {
     const { id } = req.params;
 
-    await Campground.update(req.body, {
+    await Campground.update(
+        req.body, {
         where: { id }
     });
+
+    CampgroundImage.update({
+        filename: req.file.filename,
+        path: req.file.path
+    }, { where: { campground_id: id } })
 
     req.flash('success', 'キャンプ場を更新しました');
     res.redirect(`/campgrounds/${id}`);
