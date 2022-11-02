@@ -53,31 +53,34 @@ module.exports.showCampground = asyncHandler(async (req, res) => {
     res.render('campgrounds/show', { campground });
 })
 
-module.exports.createCampground = asyncHandler(async (req, res) => {
+module.exports.createCampground = async (req, res) => {
     // if (!req.body.campground) throw new ExpressError('不正なキャンプ場のデータです', 400);
-    // const t = await sequelize.transaction();
+    let campgroundTransactionResult
     try {
-        req.body.user_id = req.user.id;
-        const campground = await Campground.create(req.body);
+        campgroundTransactionResult = await sequelize.transaction(async (t) => {
 
-        const filename = req.file?.filename ? req.file.filename : null
-        const path = req.file?.path ? req.file.path : null
+            req.body.user_id = req.user.id;
+            const campground = await Campground.create(req.body);
 
-        CampgroundImage.create({
-            campground_id: campground.id,
-            filename,
-            path
-        })
+            const filename = req.file?.filename ? req.file.filename : null
+            const path = req.file?.path ? req.file.path : null
 
-        // await t.commit();
+            CampgroundImage.create({
+                campground_id: campground.id,
+                filename,
+                path
+            })
 
-        req.flash('success', '新しいキャンプ場を登録しました');
-        res.redirect(`/campgrounds/${campground.id}`);
+            return campground;
+        });
     } catch (error) {
-        console.log({ error })
-        // await t.rollback();
+        // If the execution reaches this line, an error occurred.
+        // The transaction has already been rolled back automatically by Sequelize!
     }
-})
+
+    req.flash('success', '新しいキャンプ場を登録しました');
+    res.redirect(`/campgrounds/${campgroundTransactionResult.id}`);
+}
 
 module.exports.renderEditForm = asyncHandler(async (req, res) => {
     const campground = await Campground.findByPk(req.params.id);
