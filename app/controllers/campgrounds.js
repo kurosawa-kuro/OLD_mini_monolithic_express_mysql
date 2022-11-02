@@ -2,8 +2,15 @@ const { Campground, Review, User, CampgroundImage } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
-    const campgrounds = await Campground.findAll();
-
+    const campgrounds = await Campground.findAll({
+        include: [
+            {
+                model: CampgroundImage,
+                as: 'campground_images'
+            }
+        ]
+    });
+    console.log("JSON.stringify(campgrounds, null, 2)", JSON.stringify(campgrounds, null, 2))
     res.render('campgrounds/index', { campgrounds });
 }
 
@@ -28,11 +35,15 @@ module.exports.showCampground = async (req, res) => {
             {
                 model: User,
                 as: 'user'
+            },
+            {
+                model: CampgroundImage,
+                as: 'campground_images'
             }
         ]
     });
 
-    // console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
+    console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
     if (!campground) {
         req.flash('error', 'キャンプ場は見つかりませんでした');
         return res.redirect('/campgrounds');
