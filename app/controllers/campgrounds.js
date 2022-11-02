@@ -1,4 +1,4 @@
-const { Campground, Review, User } = require("../../db/models")
+const { Campground, Review, User, CampgroundImage } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
@@ -47,6 +47,16 @@ module.exports.createCampground = async (req, res) => {
     req.body.user_id = req.user.id;
     req.body.image = req.file.path;
     const campground = await Campground.create(req.body);
+    console.log({ campground })
+    // const CampgroundImage = await CampgroundImage.create({
+    //     campground_id: 1
+    // });
+    const campgroundImage = await CampgroundImage.create({
+        campground_id: 1,
+        filename: req.file.filename,
+        path: req.file.path
+    })
+    console.log({ campgroundImage })
 
     req.flash('success', '新しいキャンプ場を登録しました');
     res.redirect(`/campgrounds/${campground.id}`);

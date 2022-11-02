@@ -24,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'CampgroundImage',
+    tableName: 'campground_Images',
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   });
   return CampgroundImage;
 };
