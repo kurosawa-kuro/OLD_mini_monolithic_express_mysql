@@ -41,9 +41,9 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">画像のアップロード</label>
-                <input class="form-control" type="file" id="image" name="image">
-                <img class="img-fluid" src="<%= campground.campground_images[0]?.path %>" alt="">
+                <label for="image" class="form-label mb-2">画像の再アップロード</label>
+                <img class="img-fluid border" src="<%= campground.campground_images[0]?.path %>" alt="">
+                <input class="form-control mt-2" type="file" id="image" name="image">
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">更新する</button>

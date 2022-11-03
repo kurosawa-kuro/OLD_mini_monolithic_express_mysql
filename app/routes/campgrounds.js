@@ -10,6 +10,7 @@ const { isUser } = require('../middleware/isUser');
 
 const { storage } = require('../cloudinary');
 
+// Todo外部化
 // const storage = multer.diskStorage({
 //     destination: function (req, file, cb) {
 //         cb(null, 'app/uploads/')
