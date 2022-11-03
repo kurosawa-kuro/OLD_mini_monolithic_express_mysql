@@ -3,6 +3,47 @@ const asyncHandler = require('express-async-handler')
 const { Campground, Review, User, CampgroundImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
+// CRUD render Create form
+module.exports.renderNewForm = (req, res) => {
+
+    res.render('campgrounds/new');
+}
+
+
+// CRUD Create
+module.exports.createCampground = async (req, res) => {
+    // if (!req.body.campground) throw new ExpressError('不正なお湯処のデータです', 400);
+    let campgroundTransactionResult
+    try {
+        campgroundTransactionResult = await sequelize.transaction(async (t) => {
+
+            req.body.user_id = req.user.id;
+            const campground = await Campground.create(req.body);
+            console.log("req.files : ", req.files)
+            req.files.forEach((value, index, array) => {
+                const filename = value.filename ? value.filename : null
+                const path = value.path ? value.path : null
+
+                CampgroundImage.create({
+                    campground_id: campground.id,
+                    filename,
+                    path
+                })
+            });
+
+
+            return campground;
+        });
+    } catch (error) {
+        // If the execution reaches this line, an error occurred.
+        // The transaction has already been rolled back automatically by Sequelize!
+    }
+
+    req.flash('success', '新しいお湯処を登録しました');
+    res.redirect(`/campgrounds/${campgroundTransactionResult.id}`);
+}
+
+// CRUD Read
 module.exports.index = async (req, res) => {
     const campgrounds = await Campground.findAll({
         include: [
@@ -16,11 +57,7 @@ module.exports.index = async (req, res) => {
     res.render('campgrounds/index', { campgrounds });
 }
 
-module.exports.renderNewForm = (req, res) => {
-
-    res.render('campgrounds/new');
-}
-
+// CRUD Read
 module.exports.showCampground = async (req, res) => {
     const campground = await Campground.findByPk(req.params.id, {
         include: [
@@ -53,36 +90,8 @@ module.exports.showCampground = async (req, res) => {
     res.render('campgrounds/show', { campground });
 }
 
-module.exports.createCampground = async (req, res) => {
-    // if (!req.body.campground) throw new ExpressError('不正なお湯処のデータです', 400);
-    let campgroundTransactionResult
-    try {
-        campgroundTransactionResult = await sequelize.transaction(async (t) => {
 
-            req.body.user_id = req.user.id;
-            const campground = await Campground.create(req.body);
-            console.log("req.file ", req.file)
-            // ここでUtilからファイル拡張子を付与する
-            const filename = req.file?.filename ? req.file.filename : null
-            const path = req.file?.path ? req.file.path : null
-
-            CampgroundImage.create({
-                campground_id: campground.id,
-                filename,
-                path
-            })
-
-            return campground;
-        });
-    } catch (error) {
-        // If the execution reaches this line, an error occurred.
-        // The transaction has already been rolled back automatically by Sequelize!
-    }
-
-    req.flash('success', '新しいお湯処を登録しました');
-    res.redirect(`/campgrounds/${campgroundTransactionResult.id}`);
-}
-
+// CRUD render Update form
 module.exports.renderEditForm = async (req, res) => {
     const campground = await Campground.findByPk(req.params.id, {
         include: [
@@ -100,6 +109,7 @@ module.exports.renderEditForm = async (req, res) => {
     res.render('campgrounds/edit', { campground });
 }
 
+// CRUD Update
 module.exports.updateCampground = async (req, res) => {
     const { id } = req.params;
 
@@ -117,6 +127,7 @@ module.exports.updateCampground = async (req, res) => {
     res.redirect(`/campgrounds/${id}`);
 }
 
+// CRUD Delete
 module.exports.deleteCampground = async (req, res) => {
     const { id } = req.params;
     const campgroundImage = await CampgroundImage.findAll(
