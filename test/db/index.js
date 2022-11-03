@@ -11,8 +11,8 @@ async function start() {
     // startUser()
     // startPost()
     // startSample()
-    // startCampground()
-    startCampgroundImage()
+    startCampground()
+    // startCampgroundImage()
 
     // startUsersGroups()
     // startAuth()

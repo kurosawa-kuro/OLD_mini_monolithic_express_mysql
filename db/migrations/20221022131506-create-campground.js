@@ -29,6 +29,9 @@ module.exports = {
       location: {
         type: Sequelize.STRING
       },
+      geometry: {
+        type: Sequelize.JSON
+      },
       created_at: {
         type: Sequelize.DATE
       },

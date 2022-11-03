@@ -15,6 +15,7 @@ module.exports = {
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
+          geometry: '{ "type": "Point", "coordinates": [40, 5] }',
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
@@ -24,6 +25,7 @@ module.exports = {
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
+          geometry: '{ "type": "Point", "coordinates": [40, 5] }',
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
@@ -32,6 +34,7 @@ module.exports = {
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
+          geometry: '{ "type": "Point", "coordinates": [40, 5] }',
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
@@ -40,6 +43,7 @@ module.exports = {
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
+          geometry: '{ "type": "Point", "coordinates": [40, 5] }',
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
@@ -48,6 +52,7 @@ module.exports = {
           price: faker.commerce.price(),
           description: faker.lorem.sentence(),
           location: faker.address.county() + ' ' + faker.address.city(),
+          geometry: '{ "type": "Point", "coordinates": [40, 5] }',
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }

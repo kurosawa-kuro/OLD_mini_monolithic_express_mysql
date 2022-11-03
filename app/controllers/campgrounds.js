@@ -55,6 +55,18 @@ module.exports.index = async (req, res) => {
         ]
     });
 
+    // console.log("JSON.stringify(campgrounds, null, 2)", JSON.stringify(campgrounds, null, 2))
+    // console.log("JSON.stringify(campgrounds, null, 2)", JSON.stringify(campgrounds[0].geometry, null, 2))
+    // console.log("campgrounds[0].geometry.coordinates", campgrounds[0])
+    console.log("campgrounds[0].geometry.coordinates", JSON.parse(campgrounds[0].dataValues.geometry))
+    const geometry = JSON.parse(campgrounds[0].dataValues.geometry)
+    console.log("geometry.coordinates", geometry.coordinates)
+
+
+    // console.log("JSON.stringify(campgrounds.geometry, null, 2)", JSON.stringify(campgrounds[0].geometry, null, 2))
+    // console.log("JSON.stringify(campgrounds.geometry, null, 2)", JSON.stringify(campgrounds[0].geometry, null, 2))
+
+
     res.render('campgrounds/index', { campgrounds });
 }
 

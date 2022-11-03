@@ -30,6 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.STRING,
     description: DataTypes.STRING,
     location: DataTypes.STRING,
+    geometry: DataTypes.JSON,
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE
   }, {
