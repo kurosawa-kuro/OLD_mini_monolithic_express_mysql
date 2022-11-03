@@ -47,14 +47,14 @@ module.exports.showCampground = async (req, res) => {
 
     console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
     if (!campground) {
-        req.flash('error', 'キャンプ場は見つかりませんでした');
+        req.flash('error', 'レストランは見つかりませんでした');
         return res.redirect('/campgrounds');
     }
     res.render('campgrounds/show', { campground });
 }
 
 module.exports.createCampground = async (req, res) => {
-    // if (!req.body.campground) throw new ExpressError('不正なキャンプ場のデータです', 400);
+    // if (!req.body.campground) throw new ExpressError('不正なレストランのデータです', 400);
     let campgroundTransactionResult
     try {
         campgroundTransactionResult = await sequelize.transaction(async (t) => {
@@ -79,7 +79,7 @@ module.exports.createCampground = async (req, res) => {
         // The transaction has already been rolled back automatically by Sequelize!
     }
 
-    req.flash('success', '新しいキャンプ場を登録しました');
+    req.flash('success', '新しいレストランを登録しました');
     res.redirect(`/campgrounds/${campgroundTransactionResult.id}`);
 }
 
@@ -93,7 +93,7 @@ module.exports.renderEditForm = async (req, res) => {
         ]
     });
     if (!campground) {
-        req.flash('error', 'キャンプ場は見つかりませんでした');
+        req.flash('error', 'レストランは見つかりませんでした');
         return res.redirect('/campgrounds');
     }
 
@@ -113,7 +113,7 @@ module.exports.updateCampground = async (req, res) => {
         path: req.file.path
     }, { where: { campground_id: id } })
 
-    req.flash('success', 'キャンプ場を更新しました');
+    req.flash('success', 'レストランを更新しました');
     res.redirect(`/campgrounds/${id}`);
 }
 
@@ -127,6 +127,6 @@ module.exports.deleteCampground = async (req, res) => {
         where: { id }
     });
 
-    req.flash('success', 'キャンプ場を削除しました');
+    req.flash('success', 'レストランを削除しました');
     res.redirect('/campgrounds');
 }
