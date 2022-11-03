@@ -41,34 +41,17 @@
                 </div>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label mb-2">画像の再アップロード</label>
-                <input class="form-control mt-2 mb-2" type="file" id="image" name="image">
-
-                <!-- <img class="img-fluid border" src="<%= campground.campground_images[0]?.path %>" alt="">
-                <img class="img-fluid border" src="<%= campground.campground_images[1]?.path %>" alt="">
-                <img class="img-fluid border" src="<%= campground.campground_images[2]?.path %>" alt=""> -->
-                <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <% campground.campground_images.forEach((img, i) => { %>
-                        <div class="carousel-item <%= i === 0 ? 'active': '' %>">
-                            <img src="<%= img.path %>" class="d-block w-100" alt="">
-                        </div>
-                        <% }) %>
+                <label for="image" class="form-label">画像の追加アップロード</label>
+                <input class="form-control" type="file" id="image" name="image" multiple>
+            </div>
+            <div class="mb-3">
+                <% campground.campground_images.forEach(function(img, i) { %>
+                    <img src="<%= img.path %>" class="img-thumbnail" alt=""  style="height: 250px;">
+                    <div class="form-check-inline">
+                        <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">
                     </div>
-                    <% if(campground.campground_images.length > 1) { %> 
-                    <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#campgroundCarousel"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                    <% } %> 
-                </div>
-
+                    <label for="image-<%= i %>">削除する</label>
+                <% }) %>
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">更新する</button>

@@ -20,6 +20,7 @@ module.exports.createCampground = async (req, res) => {
             req.body.user_id = req.user.id;
             const campground = await Campground.create(req.body);
             console.log("req.files : ", req.files)
+
             req.files.forEach((value, index, array) => {
                 const filename = value.filename ? value.filename : null
                 const path = value.path ? value.path : null
@@ -117,11 +118,32 @@ module.exports.updateCampground = async (req, res) => {
         req.body, {
         where: { id }
     });
+    console.log("req.body", req.body)
+    console.log("req.files", req.files)
+    // ループ処理が必要
+    // delete → update
 
-    CampgroundImage.update({
-        filename: req.file.filename,
-        path: req.file.path
-    }, { where: { campground_id: id } })
+
+    if (req.body.deleteImages) {
+        req.body.deleteImages.forEach(async (value, index, array) => {
+            await CampgroundImage.destroy({
+                where: {
+                    filename: value
+                }
+            });
+            // クラウディナリからも削除
+        })
+    }
+
+    req.files.forEach((value, index, array) => {
+        console.log({ value })
+        CampgroundImage.create({
+            campground_id: id,
+            filename: value.filename,
+            path: value.path
+        })
+    })
+
 
     req.flash('success', 'お湯処を更新しました');
     res.redirect(`/campgrounds/${id}`);
