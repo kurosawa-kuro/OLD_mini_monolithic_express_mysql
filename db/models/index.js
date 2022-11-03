@@ -1,5 +1,7 @@
 'use strict';
 
+require('dotenv').config();
+
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -10,11 +12,22 @@ const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
 let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
+// if (config.use_env_variable) {
+//   sequelize = new Sequelize(process.env[config.use_env_variable], config);
+// } else {
+//   sequelize = new Sequelize(config.database, config.username, config.password, config);
+// }
+
+sequelize = new Sequelize(
+  process.env.DATABASE_NAME,
+  process.env.DATABASE_USER_NAME,
+  process.env.DATABASE_PASSWORD
+  , {
+    host: process.env.DATABASE_HOST,
+    dialect: process.env.DATABASE_DIALECT,
+  }
+);
+
 
 fs
   .readdirSync(__dirname)
