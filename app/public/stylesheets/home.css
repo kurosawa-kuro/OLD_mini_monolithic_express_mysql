@@ -1,7 +1,7 @@
 body {
     height: 100vh;
     background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("https://media.istockphoto.com/photos/table-ready-to-be-served-in-modern-restaurant-picture-id1392279408?s=612x612");
+    url("https://media.istockphoto.com/photos/pouring-hot-spring-picture-id617878366?s=612x612");
     background-size: cover;
     background-position: center;
     text-shadow: 0 0.05rem 0.1rem rgba(0, 0, 0, 0.5);
