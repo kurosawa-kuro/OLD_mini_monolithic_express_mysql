@@ -118,11 +118,6 @@ module.exports.updateCampground = async (req, res) => {
         req.body, {
         where: { id }
     });
-    console.log("req.body", req.body)
-    console.log("req.files", req.files)
-    // ループ処理が必要
-    // delete → update
-
 
     if (req.body.deleteImages) {
         req.body.deleteImages.forEach(async (value, index, array) => {
@@ -132,6 +127,7 @@ module.exports.updateCampground = async (req, res) => {
                 }
             });
             // クラウディナリからも削除
+            await cloudinary.uploader.destroy(value)
         })
     }
 
