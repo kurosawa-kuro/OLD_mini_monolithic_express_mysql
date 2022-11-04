@@ -39,19 +39,19 @@
         zoom: 4
     });
 
-    let campgroundMapJson = []
+    let campgroundMapGeoJson = []
     campgroundMap.forEach((map)=>{
-        console.log("map.latitude",map.latitude)
-        campgroundMapJson.push({"id":map.id,"title":map.title,"geometry":{ "type": "Point", "coordinates": [map.latitude,map.longitude] }})
+        // console.log("map.latitude",map.latitude)
+        campgroundMapGeoJson.push({"id":map.id,"title":map.title,"geometry":{ "type": "Point", "coordinates": [map.latitude,map.longitude] }})
     })
-    console.log({campgroundMapJson})
+    // console.log({campgroundMapGeoJson})
 
-    // const old_campgroundMap = [{"id":1,"title":"THE SPA 西新井","geometry":{ "type": "Point", "coordinates": [139.706449,35.7324297] }},
+    // const campgroundMapGeoJson = [{"id":1,"title":"THE SPA 西新井","geometry":{ "type": "Point", "coordinates": [139.706449,35.7324297] }},
     // {"id":2,"title":"そうか健康センター","geometry":{ "type": "Point", "coordinates": [139.77859,35.8411846]}},
     // {"id":3,"title":"あや ほのか","geometry":{ "type": "Point", "coordinates": [141.4357252, 43.0012096]}}]
     // console.log(JSON.stringify(campgrounds))
 
-    const old_campgroundMap = campgroundMapJson
+    // const campgroundMapGeoJson = campgroundMapGeoJson
 
 
     map.on('load', () => {
@@ -63,7 +63,7 @@
             // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
             // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
             data: {
-                features: campgroundMapJson
+                features: campgroundMapGeoJson
             },
             cluster: true,
             clusterMaxZoom: 14, // Max zoom to cluster points on
@@ -132,7 +132,7 @@
             const features = map.queryRenderedFeatures(e.point, {
                 layers: ['clusters']
             });
-            console.log("features[0].properties.cluster_id",features[0].properties.cluster_id)
+            // console.log("features[0].properties.cluster_id",features[0].properties.cluster_id)
             const clusterId = features[0].properties.cluster_id;
             map.getSource('campgrounds').getClusterExpansionZoom(
                 clusterId,
@@ -157,7 +157,7 @@
             // console.log("features[0].properties.id",e.features[0].id)
             const search_id = e.features[0].id
             let title
-            old_campgroundMap.forEach((value)=> {
+            campgroundMapGeoJson.forEach((value)=> {
                 console.log(value.id)
                 if (search_id == value.id){
                     // console.log("value.title",value.title)
