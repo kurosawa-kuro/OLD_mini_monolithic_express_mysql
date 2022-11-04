@@ -39,7 +39,12 @@
 
     let campgroundMapGeoJson = []
     campgroundMap.forEach((map)=>{
-        campgroundMapGeoJson.push({"id":map.id,"title":map.title,"geometry":{ "type": "Point", "coordinates": [map.latitude,map.longitude] }})
+        campgroundMapGeoJson.push({
+            "id":map.id,
+            "title":map.title,
+            "geometry":{ 
+                "type": "Point", 
+                "coordinates": [map.latitude,map.longitude] }})
     })
 
 
@@ -167,7 +172,7 @@
         map.on('mouseenter', 'clusters', () => {
             map.getCanvas().style.cursor = 'pointer';
         });
-        
+
         map.on('mouseleave', 'clusters', () => {
             map.getCanvas().style.cursor = '';
     });
