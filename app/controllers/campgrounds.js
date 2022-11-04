@@ -26,10 +26,12 @@ module.exports.createCampground = async (req, res) => {
                 limit: 1
             }).send();
             // console.log({ geoData })
-            // console.log("geoData.body.features[0].geometry", geoData.body.features[0].geometry)
+            console.log("geoData.body.features[0].geometry", geoData.body.features[0].geometry.coordinates)
+            const coordinates = geoData.body.features[0].geometry.coordinates
+            const geometry = { 'coordinates': coordinates, 'type': 'Point' }
 
             req.body.user_id = req.user.id;
-            req.body.geometry = geoData.body.features[0].geometry;
+            req.body.geometry = geometry;
             const campground = await Campground.create(req.body);
             // console.log("req.files : ", req.files)
 
@@ -98,12 +100,14 @@ module.exports.showCampground = async (req, res) => {
         ]
     });
 
-    // console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
+    const geometry = JSON.parse(campground.dataValues.geometry)
+    const coordinates = geometry.coordinates
+    console.log("geometry.coordinates", geometry.coordinates)
     if (!campground) {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/campgrounds');
     }
-    res.render('campgrounds/show', { campground });
+    res.render('campgrounds/show', { campground, coordinates });
 }
 
 
