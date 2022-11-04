@@ -27,8 +27,6 @@
 
 <script>
     const campgroundMap = <%- JSON.stringify(campgroundMap) %>;
-    console.log({campgroundMap})
-    // console.log("campgroundMap.id",campgroundMap[0].id)
     const mapToken = '<%= process.env.MAPBOX_TOKEN %>'
     mapboxgl.accessToken = mapToken;
 
@@ -41,17 +39,8 @@
 
     let campgroundMapGeoJson = []
     campgroundMap.forEach((map)=>{
-        // console.log("map.latitude",map.latitude)
         campgroundMapGeoJson.push({"id":map.id,"title":map.title,"geometry":{ "type": "Point", "coordinates": [map.latitude,map.longitude] }})
     })
-    // console.log({campgroundMapGeoJson})
-
-    // const campgroundMapGeoJson = [{"id":1,"title":"THE SPA 西新井","geometry":{ "type": "Point", "coordinates": [139.706449,35.7324297] }},
-    // {"id":2,"title":"そうか健康センター","geometry":{ "type": "Point", "coordinates": [139.77859,35.8411846]}},
-    // {"id":3,"title":"あや ほのか","geometry":{ "type": "Point", "coordinates": [141.4357252, 43.0012096]}}]
-    // console.log(JSON.stringify(campgrounds))
-
-    // const campgroundMapGeoJson = campgroundMapGeoJson
 
 
     map.on('load', () => {
@@ -132,7 +121,6 @@
             const features = map.queryRenderedFeatures(e.point, {
                 layers: ['clusters']
             });
-            // console.log("features[0].properties.cluster_id",features[0].properties.cluster_id)
             const clusterId = features[0].properties.cluster_id;
             map.getSource('campgrounds').getClusterExpansionZoom(
                 clusterId,
@@ -152,13 +140,9 @@
         // the location of the feature, with
         // description HTML from its properties.
         map.on('click', 'unclustered-point', (e) => {
-            // console.log("e.features",e.features)
-            // const { popupMarkup } = e.features[0].properties
-            // console.log("features[0].properties.id",e.features[0].id)
             const search_id = e.features[0].id
             let title
             campgroundMapGeoJson.forEach((value)=> {
-                console.log(value.id)
                 if (search_id == value.id){
                     // console.log("value.title",value.title)
                     title = value.title
@@ -183,8 +167,9 @@
         map.on('mouseenter', 'clusters', () => {
             map.getCanvas().style.cursor = 'pointer';
         });
+        
         map.on('mouseleave', 'clusters', () => {
-        map.getCanvas().style.cursor = '';
+            map.getCanvas().style.cursor = '';
     });
     });
 </script>

@@ -69,12 +69,9 @@ module.exports.index = async (req, res) => {
         ]
     });
 
-
-
     let campgroundMap = []
     campgrounds.forEach((campground) => {
         const geometry = JSON.parse(campground.dataValues.geometry)
-        console.log("geometry.coordinates", geometry.coordinates)
         campgroundMap.push(
             {
                 id: campground.id,
@@ -84,20 +81,6 @@ module.exports.index = async (req, res) => {
             }
         )
     })
-    // campgroundMap = [
-    //     {
-    //         id: 1,
-    //         title: '湯の郷絢ほのか',
-    //         latitude: 43.0012096,
-    //         longitude: 141.4357252,
-    //     },
-    //     {
-    //         id: 2,
-    //         title: 'THE SPA 西新井',
-    //         latitude: 35.7747844,
-    //         longitude: 139.7877017,
-    //     }]
-    console.log({ campgroundMap })
 
     res.render('campgrounds/index', { campgrounds, campgroundMap });
 }
