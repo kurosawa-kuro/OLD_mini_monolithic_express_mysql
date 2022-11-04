@@ -100,30 +100,22 @@
     const mapToken = '<%= process.env.MAPBOX_TOKEN %>'
     const campground = '<%- JSON.stringify(campground) %>'
     const coordinatesJSON = '<%- JSON.stringify(coordinates) %>'
-    
-    console.log({coordinatesJSON})
-    
-const coordinates = JSON.parse(coordinatesJSON)
-console.log("coordinates",coordinates)
-
-
+    const coordinates = JSON.parse(coordinatesJSON)
 
     mapboxgl.accessToken = mapToken;
-
 
     const map = new mapboxgl.Map({
         container: 'map', // container ID
         style: 'mapbox://styles/mapbox/light-v10', // style URL
         center: coordinates, // starting position [lng, lat]
-        zoom: 10 // starting zoom
+        zoom: 15 // starting zoom
     });
 
     new mapboxgl.Marker()
         .setLngLat(coordinates)
         .setPopup(
             new mapboxgl.Popup({ offset: 25 })
-            .setHTML(`<h4>${campground.title}</h4><p>${campground.location}</p>`)
-
+            // .setHTML(`<h4>${campground.title}</h4><p>${campground.location}</p>`)
         )
         .addTo(map);
 </script>
