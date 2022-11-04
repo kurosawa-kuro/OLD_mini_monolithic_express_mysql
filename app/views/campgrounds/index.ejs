@@ -26,8 +26,9 @@
 <% } %>
 
 <script>
-    // const campgrounds = <%- JSON.stringify(campgrounds) %>
-    console.log("index js")
+    const campgroundMap = <%- JSON.stringify(campgroundMap) %>
+    // console.log({campgroundMap})
+    // console.log("campgroundMap.id",campgroundMap[0].id)
     const mapToken = '<%= process.env.MAPBOX_TOKEN %>'
     mapboxgl.accessToken = mapToken;
 
@@ -35,11 +36,14 @@
         container: 'map',
         style: 'mapbox://styles/mapbox/light-v10',
         center: [138, 39],
-        zoom: 3
+        zoom: 4
     });
 
-    const campgrounds = [{"geometry":{ "type": "Point", "coordinates": [139.706449,35.7324297] }}]
-    console.log(JSON.stringify(campgrounds))
+    const old_campgroundMap = [{"id":1,"title":"THE SPA 西新井","geometry":{ "type": "Point", "coordinates": [139.706449,35.7324297] }},
+    {"id":2,"title":"そうか健康センター","geometry":{ "type": "Point", "coordinates": [139.77859,35.8411846]}},
+    {"id":3,"title":"あや ほのか","geometry":{ "type": "Point", "coordinates": [141.4357252, 43.0012096]}}]
+    // console.log(JSON.stringify(campgrounds))
+
 
     map.on('load', () => {
         // Add a new source from our GeoJSON data and
@@ -50,7 +54,7 @@
             // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
             // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
             data: {
-                features: [{"geometry":{ "type": "Point", "coordinates": [139.706449,35.7324297] }},{"geometry":{ "type": "Point", "coordinates": [139.77859,35.8411846]}},{"geometry":{ "type": "Point", "coordinates": [141.4357252, 43.0012096]}}]
+                features: old_campgroundMap
             },
             cluster: true,
             clusterMaxZoom: 14, // Max zoom to cluster points on
@@ -119,6 +123,7 @@
             const features = map.queryRenderedFeatures(e.point, {
                 layers: ['clusters']
             });
+            console.log("features[0].properties.cluster_id",features[0].properties.cluster_id)
             const clusterId = features[0].properties.cluster_id;
             map.getSource('campgrounds').getClusterExpansionZoom(
                 clusterId,
@@ -138,7 +143,19 @@
         // the location of the feature, with
         // description HTML from its properties.
         map.on('click', 'unclustered-point', (e) => {
-            const { popupMarkup } = e.features[0].properties
+            console.log("e.features",e.features)
+            // const { popupMarkup } = e.features[0].properties
+            // console.log("features[0].properties.id",e.features[0].id)
+            const search_id = e.features[0].id
+            let title
+            old_campgroundMap.forEach((value)=> {
+                console.log(value.id)
+                if (search_id == value.id){
+                    console.log("value.title",value.title)
+                    title = value.title
+                }        
+            })
+            const popupMarkup = '<strong><a href="/campgrounds/'+e.features[0].id+'">'+title+'</a></strong>'
             const coordinates = e.features[0].geometry.coordinates.slice();
 
             // Ensure that if the map is zoomed out such that

@@ -69,10 +69,25 @@ module.exports.index = async (req, res) => {
         ]
     });
 
-    const geometry = JSON.parse(campgrounds[0].dataValues.geometry)
-    console.log("geometry.coordinates", geometry.coordinates)
+    // const geometry = JSON.parse(campgrounds[0].dataValues.geometry)
+    // console.log("geometry.coordinates", geometry.coordinates)
 
-    res.render('campgrounds/index', { campgrounds });
+    const campgroundMap = [
+        {
+            id: 1,
+            title: '湯の郷絢ほのか',
+            latitude: 43.0012096,
+            longitude: 141.4357252,
+        },
+        {
+            id: 2,
+            title: 'THE SPA 西新井',
+            latitude: 35.7747844,
+            longitude: 139.7877017,
+        }]
+    console.log({ campgroundMap })
+
+    res.render('campgrounds/index', { campgrounds, campgroundMap });
 }
 
 // CRUD Read
@@ -102,7 +117,9 @@ module.exports.showCampground = async (req, res) => {
 
     const geometry = JSON.parse(campground.dataValues.geometry)
     const coordinates = geometry.coordinates
-    console.log("geometry.coordinates", geometry.coordinates)
+    // console.log("geometry.coordinates", geometry.coordinates)
+
+
     if (!campground) {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/campgrounds');
