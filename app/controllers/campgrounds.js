@@ -1,4 +1,7 @@
 const asyncHandler = require('express-async-handler')
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapboxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
 const { Campground, Review, User, CampgroundImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
@@ -16,10 +19,19 @@ module.exports.createCampground = async (req, res) => {
     let campgroundTransactionResult
     try {
         campgroundTransactionResult = await sequelize.transaction(async (t) => {
+            console.log("test")
+            console.log("req.body.location", req.body.location)
+            const geoData = await geocoder.forwardGeocode({
+                query: req.body.location,
+                limit: 1
+            }).send();
+            // console.log({ geoData })
+            // console.log("geoData.body.features[0].geometry", geoData.body.features[0].geometry)
 
             req.body.user_id = req.user.id;
+            req.body.geometry = geoData.body.features[0].geometry;
             const campground = await Campground.create(req.body);
-            console.log("req.files : ", req.files)
+            // console.log("req.files : ", req.files)
 
             req.files.forEach((value, index, array) => {
                 const filename = value.filename ? value.filename : null
@@ -86,7 +98,7 @@ module.exports.showCampground = async (req, res) => {
         ]
     });
 
-    console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
+    // console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
     if (!campground) {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/campgrounds');
@@ -135,7 +147,7 @@ module.exports.updateCampground = async (req, res) => {
     }
 
     req.files.forEach((value, index, array) => {
-        console.log({ value })
+        // console.log({ value })
         CampgroundImage.create({
             campground_id: id,
             filename: value.filename,
