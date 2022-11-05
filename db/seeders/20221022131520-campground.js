@@ -29,6 +29,7 @@ module.exports = {
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
+          user_id: 2,
           title: '草加健康センター',
           image: faker.image.image(),
           price: faker.commerce.price(),
@@ -38,6 +39,7 @@ module.exports = {
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
+          user_id: 2,
           title: 'かるまる',
           image: faker.image.image(),
           price: faker.commerce.price(),
@@ -47,6 +49,7 @@ module.exports = {
           created_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
           updated_at: faker.date.between('2020-01-01T00:00:00.000Z', '2022-01-01T00:00:00.000Z'),
         }, {
+          user_id: 3,
           title: faker.commerce.productName(),
           image: faker.image.image(),
           price: faker.commerce.price(),
