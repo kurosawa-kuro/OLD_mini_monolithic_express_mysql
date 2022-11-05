@@ -56,6 +56,7 @@ const readUsers = async () => {
     console.log("start read_users")
     console.log("db.User", db.User)
     const follower = await db.User.findByPk(1, {
+        // raw: true,
         include: [
             {
                 model: db.Follower,
@@ -64,11 +65,14 @@ const readUsers = async () => {
         ]
     })
     // console.log("follower", JSON.stringify(follower, null, 2))
+    // console.log("follower", follower.follower[0])
 
+    const followerIdList = follower.follower.map((val) => { return val.follower_id })
+    // console.log({ followerIdList })
 
     const followerFullData = await db.User.findAll({
         where: {
-            id: [2, 3]
+            id: followerIdList
         }
     }
     )
