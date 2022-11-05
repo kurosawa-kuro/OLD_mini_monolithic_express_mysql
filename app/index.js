@@ -10,6 +10,7 @@ const secret = "secretCuisine123";
 
 const ExpressError = require('./utils/ExpressError');
 const userRoutes = require('./routes/users');
+const followerRoutes = require('./routes/followers');
 const campgroundRoutes = require('./routes/campgrounds.js');
 const reviewRoutes = require('./routes/reviews.js');
 
@@ -55,6 +56,7 @@ app.get('/debug', (req, res) => {
 app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/follower', followerRoutes);
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('ページが見つかりませんでした', 404));

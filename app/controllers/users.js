@@ -8,7 +8,8 @@ module.exports.profile = async (req, res) => {
     // console.log("req.params.id", req.params.id)
     // console.log("req.user", req.user)
 
-
+    const userdata = await User.findByPk(req.params.id, { raw: true })
+    console.log({ userdata })
     const followers = await Follower.findAll({ raw: true, where: { user_id: req.params.id } })
     // console.log({ followers })
 
@@ -26,7 +27,7 @@ module.exports.profile = async (req, res) => {
     // console.log({ followerFullData })
 
     // console.log("followerFullData", JSON.stringify(followerFullData, null, 2))
-    const user = { user: req.user, follower }
+    const user = { user: userdata, loginUser: req.user, follower }
 
     console.log("user", JSON.stringify(user, null, 2))
     const abc = "abc"

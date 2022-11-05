@@ -1,12 +1,24 @@
 <% layout('layouts/boilerplate') %>
 
-<%= user.id %> 
-<%= user.name %> 
-<%= user.email %> 
+Login User
+<%= loginUser.id %> 
+<%= loginUser.name %> 
+<%= loginUser.email %> 
 
 <hr>
 
+ここは誰のユーザーページ？
+<%= user.id %> <%= user.name %> <%= user.email %> 
+<hr>
 add Follwer
+
+
+<form action="http://localhost:3000/follower/2" method="POST" >
+    <div class="d-grid">
+        <input type="hidden" name="follower" value="<%= user.id %>">
+        <button class="btn btn-success">add Follower</button>
+    </div>
+</form>
 <hr>
 <br>
 
