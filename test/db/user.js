@@ -62,7 +62,8 @@ const readUsers = async () => {
             // as: 'users_relationships',
         }]
     })
-    console.log({ users })
+    // console.log({ users })
+    console.log("users", users[1]["UsersRelationships.id"])
     // try {
     //     const users = await db.User.findAll({
     //         include: [
