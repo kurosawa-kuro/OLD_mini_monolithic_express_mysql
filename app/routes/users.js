@@ -5,6 +5,9 @@ const users = require('../controllers/users');
 
 const router = express.Router();
 
+router.route('/user/:id')
+    .get(users.profile)
+
 router.route('/register')
     .get(users.renderRegister)
     .post(users.register);

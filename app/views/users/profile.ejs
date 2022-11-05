@@ -1,0 +1,23 @@
+<% layout('layouts/boilerplate') %>
+
+<%= user.id %> 
+<%= user.name %> 
+<%= user.email %> 
+
+<hr>
+
+add Follwer
+<hr>
+<br>
+
+folowers
+<hr>
+<br>
+
+
+
+<% for(let data of follower) { %>
+<ul>
+    <li><a href="http://localhost:3000/user/<%= data.id %>"><%= data.name %></a></li>
+</ul>
+<% } %> 
