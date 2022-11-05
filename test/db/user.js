@@ -7,7 +7,7 @@ async function startUser() {
     // console.log({ User })
 
     // createUser()
-    // readUsers()
+    readUsers()
     // readUsers2()
     // readUsers3()
     // readUser()
@@ -54,34 +54,43 @@ const createUser = async () => {
 
 const readUsers = async () => {
     console.log("start read_users")
-    try {
-        const users = await db.User.findAll({
-            include: [
-                {
-                    model: db.UserDetail,
-                    as: 'userDetail',
-                    attributes: ['phone', 'adress']
-                }, {
-                    model: db.Post,
-                    as: 'posts',
-                    attributes: ['name', 'content', 'image']
-                }, {
-                    model: db.Group,
-                    as: 'groups',
-                    attributes: ['name']
-                },
-            ],
-        })
-        console.log("users", JSON.stringify(users, null, 2))
+    console.log("db.User", db.User)
+    const users = await db.User.findAll({
+        raw: true,
+        include: [{
+            model: db.UsersRelationship,
+            // as: 'users_relationships',
+        }]
+    })
+    console.log({ users })
+    // try {
+    //     const users = await db.User.findAll({
+    //         include: [
+    //             {
+    //                 model: db.UserDetail,
+    //                 as: 'userDetail',
+    //                 attributes: ['phone', 'adress']
+    //             }, {
+    //                 model: db.Post,
+    //                 as: 'posts',
+    //                 attributes: ['name', 'content', 'image']
+    //             }, {
+    //                 model: db.Group,
+    //                 as: 'groups',
+    //                 attributes: ['name']
+    //             },
+    //         ],
+    //     })
+    //     console.log("users", JSON.stringify(users, null, 2))
 
-        const data = users
-        const msg = data.length !== 0 ? "Successfully read Users" : "Successfully read Users but empty"
+    //     const data = users
+    //     const msg = data.length !== 0 ? "Successfully read Users" : "Successfully read Users but empty"
 
-        // return res.status(200).json({ isSuccess: true, msg, data })
-        console.log({ isSuccess: true, msg, data })
-    } catch (error) {
-        console.log({ isSuccess: false, error })
-    }
+    //     // return res.status(200).json({ isSuccess: true, msg, data })
+    //     console.log({ isSuccess: true, msg, data })
+    // } catch (error) {
+    //     console.log({ isSuccess: false, error })
+    // }
 }
 
 const readUsers2 = async () => {

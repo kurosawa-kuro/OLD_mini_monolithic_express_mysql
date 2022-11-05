@@ -8,10 +8,10 @@ const { startCampgroundImage } = require("./campgroundImage")
 
 async function start() {
     console.log("start database index")
-    // startUser()
+    startUser()
     // startPost()
     // startSample()
-    startCampground()
+    // startCampground()
     // startCampgroundImage()
 
     // startUsersGroups()

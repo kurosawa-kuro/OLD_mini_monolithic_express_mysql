@@ -52,6 +52,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         as: 'reviews'
       });
+      User.belongsToMany(models.UsersRelationship, {
+        foreignKey: 'follower_id',
+        through: 'users_relationships',
+        // as: 'users_relationships'
+      });
     }
   }
   User.init({
