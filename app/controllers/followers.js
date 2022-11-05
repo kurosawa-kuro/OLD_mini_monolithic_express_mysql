@@ -15,7 +15,7 @@ module.exports.createFollower = async (req, res) => {
     console.log("req.body.follower", req.body.follower)
     console.log("req.user", req.user.id)
 
-    await Follower.create({ user_id: req.user.id, follower_id: req.body.follower })
+    await Follower.create({ user_id: req.user.id, follower_id: req.params.id })
     // if (!req.body.campground) throw new ExpressError('不正なお湯処のデータです', 400);
     // let campgroundTransactionResult
     // try {

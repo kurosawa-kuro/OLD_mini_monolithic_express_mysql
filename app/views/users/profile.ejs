@@ -13,9 +13,9 @@ Login User
 add Follwer
 
 
-<form action="http://localhost:3000/follower/2" method="POST" >
+<form action="http://localhost:3000/follower/<%= user.id %>" method="POST" >
     <div class="d-grid">
-        <input type="hidden" name="follower" value="<%= user.id %>">
+        <!-- <input type="hidden" name="follower" value="<%= user.id %>"> -->
         <button class="btn btn-success">add Follower</button>
     </div>
 </form>
