@@ -55,15 +55,7 @@ const createUser = async () => {
 const readUsers = async () => {
     console.log("start read_users")
     console.log("db.User", db.User)
-    const users = await db.User.findAll({
-        raw: true,
-        include: [{
-            model: db.UsersRelationship,
-            // as: 'users_relationships',
-        }]
-    })
-    // console.log({ users })
-    console.log("users", users[1]["UsersRelationships.id"])
+
     // try {
     //     const users = await db.User.findAll({
     //         include: [
