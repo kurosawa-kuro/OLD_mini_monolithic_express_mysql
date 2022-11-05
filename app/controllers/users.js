@@ -8,8 +8,22 @@ module.exports.profile = async (req, res) => {
     // console.log("req.params.id", req.params.id)
     // console.log("req.user", req.user)
 
-    const userdata = await User.findByPk(req.params.id, { raw: true })
-    console.log({ userdata })
+    const userdata = await User.findByPk(req.params.id, {
+        include: [
+            {
+                model: Campground,
+                as: 'campgrounds'
+            }, {
+                model: Review,
+                as: 'reviews',
+                include: [
+                    {
+                        model: Campground,
+                        as: 'campground'
+                    }]
+            }]
+    })
+    console.log("userdata", JSON.stringify(userdata, null, 2))
     const followers = await Follower.findAll({ raw: true, where: { user_id: req.params.id } })
     // console.log({ followers })
 

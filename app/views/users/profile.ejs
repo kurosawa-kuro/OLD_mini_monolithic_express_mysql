@@ -1,14 +1,10 @@
 <% layout('layouts/boilerplate') %>
 
-Login User
-<%= loginUser.id %> 
-<%= loginUser.name %> 
-<%= loginUser.email %> 
+<h1>Profile</h1>
 
-<hr>
+<h2>Login User</h2>
+<%= loginUser.name %>
 
-ここは誰のユーザーページ？
-<%= user.id %> <%= user.name %> <%= user.email %> 
 <hr>
 add Follwer
 
@@ -19,17 +15,36 @@ add Follwer
         <button class="btn btn-success">add Follower</button>
     </div>
 </form>
+
 <hr>
-<br>
-
-folowers
-<hr>
-<br>
-
-
+<h2>followers</h2>
 
 <% for(let data of follower) { %>
 <ul>
     <li><a href="http://localhost:3000/user/<%= data.id %>"><%= data.name %></a></li>
 </ul>
 <% } %> 
+
+<div style="display: flex;justify-content: space-evenly;">
+<hr>
+
+<div class="reviews">
+<h2>posted reviews</h2>
+
+<% for(let review of user.reviews) { %>
+    <ul>
+        <li><a href="http://localhost:3000/campgrounds/<%= review.campground_id %>"><%= review.rating %> : <%= review.campground.title %></a></li>
+    </ul>
+<% } %>
+</div>
+
+<div class="campgrounds">
+<h2>posted campgrounds</h2>
+
+<% for(let campground of user.campgrounds) { %>
+    <ul>
+        <li><a href="http://localhost:3000/campgrounds/<%= campground.id %>"><%= campground.title %></a></li>
+    </ul>
+<% } %>
+</div>
+</div>
