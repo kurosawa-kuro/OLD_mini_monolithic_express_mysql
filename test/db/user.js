@@ -55,8 +55,18 @@ const createUser = async () => {
 const readUsers = async () => {
     console.log("start read_users")
     console.log("db.User", db.User)
+    const user = await db.User.findByPk(1, {
+        include: [
+            {
+                model: db.Follower,
+                as: 'follower',
+            }
+        ]
+    })
+    console.log("user", JSON.stringify(user, null, 2))
+
     const followers = await db.Follower.findAll({ include: [] })
-    console.log("followers", JSON.stringify(followers, null, 2))
+    // console.log("followers", JSON.stringify(followers, null, 2))
     // try {
     //     const users = await db.User.findAll({
     //         include: [
