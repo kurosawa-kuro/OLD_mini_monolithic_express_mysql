@@ -54,17 +54,12 @@ const createUser = async () => {
 
 const readUsers = async () => {
     console.log("start read_users")
-    console.log("db.User", db.User)
-    const follower = await db.User.findByPk(1, {
-        include: [
-            {
-                model: db.Follower,
-                as: 'follower',
-            }
-        ]
-    })
+    console.log("db.Follow", db.Follower)
+    const followers = await db.Follower.findAll({ raw: true, where: { user_id: 1 } })
+    console.log({ followers })
 
-    const followerIdList = follower.follower.map((val) => { return val.follower_id })
+    const followerIdList = followers.map((val) => { return val.follower_id })
+    console.log({ followerIdList })
 
     const followerFullData = await db.User.findAll({
         where: {
@@ -73,7 +68,6 @@ const readUsers = async () => {
     })
 
     console.log("followerFullData", JSON.stringify(followerFullData, null, 2))
-    const followers = await db.Follower.findAll({ include: [] })
     // console.log("followers", JSON.stringify(followers, null, 2))
     // try {
     //     const users = await db.User.findAll({
