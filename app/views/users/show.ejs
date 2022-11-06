@@ -52,13 +52,11 @@ test
 <% if(user.campgrounds) {%> 
 <% for(let campground of user.campgrounds) { 
     let path = JSON.stringify(campground.campground_images[0]?.path)
-    var a = path.slice( 1 )
-    console.log("a",a)
-    var b = a.slice( 0, -1 ) 
-    console.log("b",b)
+    path = path.slice( 1 )
+    path = path.slice( 0, -1 ) 
     %>
     <ul>
-        <li><a href="http://localhost:3000/campgrounds/<%= campground.id %>"><img src="<%= b %>" style='height: 35px;'> <%= campground.title %></a></li>
+        <li><a href="http://localhost:3000/campgrounds/<%= campground.id %>"><img src="<%= path %>" style='height: 35px;'> <%= campground.title %></a></li>
     </ul>
 <% } %>
 </div>
