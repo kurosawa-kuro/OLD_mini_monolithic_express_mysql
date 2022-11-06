@@ -69,7 +69,7 @@ module.exports.index = async (req, res) => {
 
     averageRatings.forEach(async (averageRating) => {
         await Campground.update(
-            { average_rating: averageRating.aveRate }, {
+            { average_rating: averageRating.average_rating }, {
             where: {
                 id: averageRating.campground_id
             }
