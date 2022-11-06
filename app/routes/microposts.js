@@ -3,7 +3,7 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler')
 const multer = require('multer')
 
-const campgrounds = require('../controllers/campgrounds');
+const microposts = require('../controllers/microposts');
 const { isLoggedIn } = require('../middleware/isLoggedIn');
 const { isUser } = require('../middleware/isUser');
 
@@ -26,16 +26,16 @@ const upload = multer({ storage })
 
 
 router.route('/')
-    .get(asyncHandler(campgrounds.index))
-    .post(isLoggedIn, upload.array('image'), asyncHandler(campgrounds.createCampground));
+    .get(asyncHandler(microposts.index))
+    .post(isLoggedIn, upload.array('image'), asyncHandler(microposts.createMicropost));
 
-router.get('/new', isLoggedIn, campgrounds.renderNewForm);
+router.get('/new', isLoggedIn, microposts.renderNewForm);
 
 router.route('/:id')
-    .get(asyncHandler(campgrounds.showCampground))
-    .put(isLoggedIn, isUser, upload.array('image'), asyncHandler(campgrounds.updateCampground))
-    .delete(isLoggedIn, isUser, asyncHandler(campgrounds.deleteCampground));
+    .get(asyncHandler(microposts.showMicropost))
+    .put(isLoggedIn, isUser, upload.array('image'), asyncHandler(microposts.updateMicropost))
+    .delete(isLoggedIn, isUser, asyncHandler(microposts.deleteMicropost));
 
-router.get('/:id/edit', isLoggedIn, isUser, asyncHandler(campgrounds.renderEditForm));
+router.get('/:id/edit', isLoggedIn, isUser, asyncHandler(microposts.renderEditForm));
 
 module.exports = router;

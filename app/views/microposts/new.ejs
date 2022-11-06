@@ -1,21 +1,18 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
-    <h1 class="text-center">お湯処の編集</h1>
+    <h1 class="text-center">お湯処の新規登録</h1>
     <div class="offset-3 col-6">
-        <form action="/campgrounds/<%= campground.id %>?_method=PUT" method="POST" novalidate class="validated-form"
-            enctype="multipart/form-data">
+        <form action="/microposts" method="POST" novalidate class="validated-form" enctype="multipart/form-data">
             <div class="mb-3">
                 <label class="form-label" for="title">タイトル</label>
-                <input class="form-control" type="text" name="title" id="title"
-                    value="<%= campground.title %>" required>
+                <input class="form-control" type="text" name="title" id="title" required>
                 <div class="valid-feedback">
                     OK!
                 </div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="location">場所</label>
-                <input class="form-control" type="text" name="location" id="location"
-                    value="<%= campground.location %>" required>
+                <input class="form-control" type="text" name="location" id="location" required>
                 <div class="valid-feedback">
                     OK!
                 </div>
@@ -25,8 +22,7 @@
                 <div class="input-group">
                     <span class="input-group-text" id="price-label">¥</span>
                     <input type="text" class="form-control" id="price" placeholder="0" aria-label="平均価格"
-                        aria-describedby="price-label" name="price" value="<%= campground.price %>"
-                        required>
+                        aria-describedby="price-label" name="price" required>
                     <div class="valid-feedback">
                         OK!
                     </div>
@@ -35,29 +31,20 @@
             <div class="mb-3">
                 <label class="form-label" for="description">説明</label>
                 <textarea class="form-control" type="text" name="description" id="description"
-                    required><%= campground.description %></textarea>
+                    required></textarea>
                 <div class="valid-feedback">
                     OK!
                 </div>
             </div>
             <div class="mb-3">
-                <label for="image" class="form-label">画像の追加アップロード</label>
+                <label for="image" class="form-label">画像のアップロード</label>
                 <input class="form-control" type="file" id="image" name="image" multiple>
             </div>
             <div class="mb-3">
-                <% campground.campground_images.forEach(function(img, i) { %>
-                    <img src="<%= img.path %>" class="img-thumbnail" alt=""  style="height: 250px;">
-                    <div class="form-check-inline">
-                        <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">
-                    </div>
-                    <label for="image-<%= i %>">削除する</label>
-                <% }) %>
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-info">更新する</button>
+                <button class="btn btn-success">登録する</button>
             </div>
 
         </form>
-        <a href="/campgrounds">一覧に戻る</a>
+        <a href="/microposts">一覧に戻る</a>
     </div>
 </div>

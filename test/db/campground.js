@@ -55,7 +55,7 @@ const createUser = async () => {
 const readstartCampgrounds = async () => {
     console.log("start readstartCampgrounds")
     try {
-        const campgrounds = await db.Campground.findAll({
+        const microposts = await db.Micropost.findAll({
             raw: true,
             include: [
                 {
@@ -64,10 +64,10 @@ const readstartCampgrounds = async () => {
                 }
             ],
         })
-        console.log("campgrounds", JSON.stringify(campgrounds, null, 2))
+        console.log("microposts", JSON.stringify(microposts, null, 2))
 
-        const data = campgrounds
-        const msg = data.length !== 0 ? "Successfully read campgrounds" : "Successfully read campgrounds but empty"
+        const data = microposts
+        const msg = data.length !== 0 ? "Successfully read microposts" : "Successfully read microposts but empty"
 
         // return res.status(200).json({ isSuccess: true, msg, data })
         console.log({ isSuccess: true, msg, data })

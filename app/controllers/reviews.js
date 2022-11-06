@@ -1,4 +1,4 @@
-const { Campground, Review, User, Setting } = require("../../db/models")
+const { Micropost, Review, User, Setting } = require("../../db/models")
 
 module.exports.renderNewForm = async (req, res) => { }
 
@@ -6,17 +6,17 @@ module.exports.createReview = async (req, res) => {
     // console.log(createSetteing)
 
     const { id } = req.params;
-    const campground = await Campground.findByPk(id);
-    console.log({ campground })
+    const micropost = await Micropost.findByPk(id);
+    console.log({ micropost })
     req.body.user_id = req.user.id
-    req.body.campground_id = id
+    req.body.micropost_id = id
 
     req.body.created_at = new Date()
     req.body.updated_at = new Date()
     await Review.create(req.body);
 
     req.flash('success', 'レビューを登録しました');
-    res.redirect(`/campgrounds/${campground.id}`);
+    res.redirect(`/microposts/${micropost.id}`);
 }
 
 module.exports.deleteReview = async (req, res) => {
@@ -28,6 +28,6 @@ module.exports.deleteReview = async (req, res) => {
     })
 
     req.flash('success', 'レビューを削除しました');
-    res.redirect(`/campgrounds/${id}`);
+    res.redirect(`/microposts/${id}`);
 }
 

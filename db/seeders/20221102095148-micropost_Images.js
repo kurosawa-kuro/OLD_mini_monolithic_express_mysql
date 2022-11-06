@@ -13,8 +13,8 @@ module.exports = {
      * }], {});
     */
 
-    // await queryInterface.bulkInsert('campground_images', [{
-    //   campground_id: 1,
+    // await queryInterface.bulkInsert('micropost_images', [{
+    //   micropost_id: 1,
     //   filename: 'dummy filename',
     //   path: 'dummy path'
     // }], {});

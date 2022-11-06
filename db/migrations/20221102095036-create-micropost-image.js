@@ -2,39 +2,23 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('campgrounds', {
+    await queryInterface.createTable('micropost_images', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      user_id: {
+      micropost_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'users', key: 'id' },
+        references: { model: 'microposts', key: 'id' },
         onDelete: 'CASCADE',
       },
-      title: {
+      filename: {
         type: Sequelize.STRING
       },
-      image: {
+      path: {
         type: Sequelize.STRING
-      },
-      price: {
-        type: Sequelize.INTEGER
-      },
-      description: {
-        type: Sequelize.STRING
-      },
-      location: {
-        type: Sequelize.STRING
-      },
-      geometry: {
-        type: Sequelize.JSON
-      },
-      average_rating: {
-        type: Sequelize.FLOAT,
-        defaultValue: 3.5
       },
       created_at: {
         type: Sequelize.DATE
@@ -45,6 +29,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Campgrounds');
+    await queryInterface.dropTable('CampgroundImages');
   }
 };

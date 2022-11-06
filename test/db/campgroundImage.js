@@ -23,7 +23,7 @@ const createCampgroundImage = async () => {
         // const body = req.body
         const req = {
             body: {
-                campground_id: 1
+                micropost_id: 1
             }
         }
 
@@ -36,10 +36,10 @@ const createCampgroundImage = async () => {
         //     throw new Error('user already exists');
         // }
 
-        const user = await db.CampgroundImage.create(req.body)
+        const user = await db.MicropostImage.create(req.body)
         console.log("user", JSON.stringify(user, null, 2))
 
-        const msg = "Successfully created CampgroundImage"
+        const msg = "Successfully created MicropostImage"
         const data = user
 
         // return res.status(201).json({ isSuccess: true, msg, data })
@@ -52,7 +52,7 @@ const createCampgroundImage = async () => {
 const readstartCampgrounds = async () => {
     console.log("start readstartCampgrounds")
     try {
-        const campgrounds = await db.Campground.findAll({
+        const microposts = await db.Micropost.findAll({
             raw: true,
             include: [
                 {
@@ -61,10 +61,10 @@ const readstartCampgrounds = async () => {
                 }
             ],
         })
-        console.log("campgrounds", JSON.stringify(campgrounds, null, 2))
+        console.log("microposts", JSON.stringify(microposts, null, 2))
 
-        const data = campgrounds
-        const msg = data.length !== 0 ? "Successfully read campgrounds" : "Successfully read campgrounds but empty"
+        const data = microposts
+        const msg = data.length !== 0 ? "Successfully read microposts" : "Successfully read microposts but empty"
 
         // return res.status(200).json({ isSuccess: true, msg, data })
         console.log({ isSuccess: true, msg, data })

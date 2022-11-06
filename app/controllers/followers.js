@@ -3,7 +3,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
-const { Campground, Review, User, CampgroundImage, Follower, sequelize } = require("../../db/models")
+const { Micropost, Review, User, MicropostImage, Follower, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
 
@@ -16,7 +16,7 @@ module.exports.createFollower = async (req, res) => {
     console.log("req.user", req.user.id)
 
     await Follower.create({ user_id: req.user.id, follower_id: req.params.id })
-    // if (!req.body.campground) throw new ExpressError('不正なお湯処のデータです', 400);
+    // if (!req.body.micropost) throw new ExpressError('不正なお湯処のデータです', 400);
     // let campgroundTransactionResult
     // try {
     //     campgroundTransactionResult = await sequelize.transaction(async (t) => {
@@ -33,22 +33,22 @@ module.exports.createFollower = async (req, res) => {
 
     //         req.body.user_id = req.user.id;
     //         req.body.geometry = geometry;
-    //         const campground = await Campground.create(req.body);
+    //         const micropost = await Micropost.create(req.body);
     //         // console.log("req.files : ", req.files)
 
     //         req.files.forEach((value, index, array) => {
     //             const filename = value.filename ? value.filename : null
     //             const path = value.path ? value.path : null
 
-    //             CampgroundImage.create({
-    //                 campground_id: campground.id,
+    //             MicropostImage.create({
+    //                 micropost_id: micropost.id,
     //                 filename,
     //                 path
     //             })
     //         });
 
 
-    //         return campground;
+    //         return micropost;
     //     });
     // } catch (error) {
     //     // If the execution reaches this line, an error occurred.
@@ -63,14 +63,14 @@ module.exports.createFollower = async (req, res) => {
 // CRUD Delete
 module.exports.deleteFollower = async (req, res) => {
     const { id } = req.params;
-    const campgroundImage = await CampgroundImage.findAll(
-        { where: { campground_id: id } })
-    await cloudinary.uploader.destroy(campgroundImage[0].filename)
+    const micropostImage = await MicropostImage.findAll(
+        { where: { micropost_id: id } })
+    await cloudinary.uploader.destroy(micropostImage[0].filename)
 
-    await Campground.destroy({
+    await Micropost.destroy({
         where: { id }
     });
 
     req.flash('success', 'お湯処を削除しました');
-    res.redirect('/campgrounds');
+    res.redirect('/microposts');
 }

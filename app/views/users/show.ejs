@@ -37,25 +37,25 @@
 <% if(user.reviews){ %> 
     <% for(let review of user.reviews) { %>
         <ul>
-            <li  style="list-style:none"><a style="text-decoration:none;" href="http://localhost:3000/campgrounds/<%= review.campground_id %>"><img src="<%= review.rating %>" alt="" srcset=""><%= review.rating %> : <%= review.campground.title %></a></li>
+            <li  style="list-style:none"><a style="text-decoration:none;" href="http://localhost:3000/microposts/<%= review.micropost_id %>"><img src="<%= review.rating %>" alt="" srcset=""><%= review.rating %> : <%= review.micropost.title %></a></li>
         </ul>
     <% } %>
     </div>
 <% } %> 
 
 
-<div class="campgrounds">
-<h2><%= user.campgrounds.length %> posted campgrounds</h2>
+<div class="microposts">
+<h2><%= user.microposts.length %> posted microposts</h2>
 
-<% if(user.campgrounds) {%> 
-<% for(let campground of user.campgrounds) { 
-    let path = JSON.stringify(campground.campground_images[0]?.path)
+<% if(user.microposts) {%> 
+<% for(let micropost of user.microposts) { 
+    let path = JSON.stringify(micropost.micropost_images[0]?.path)
     if(!path){ path="" }
     path = path.slice( 1 )
     path = path.slice( 0, -1 ) 
     %>
     <ul>
-        <li style="list-style:none"><img src="<%= path %>" style='height: 35px;'> <a style="text-decoration:none;" href="http://localhost:3000/campgrounds/<%= campground.id %>"><%= campground.title %></a></li>
+        <li style="list-style:none"><img src="<%= path %>" style='height: 35px;'> <a style="text-decoration:none;" href="http://localhost:3000/microposts/<%= micropost.id %>"><%= micropost.title %></a></li>
     </ul>
 <% } %>
 </div>

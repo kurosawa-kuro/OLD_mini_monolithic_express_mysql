@@ -11,7 +11,7 @@ const secret = "secretCuisine123";
 const ExpressError = require('./utils/ExpressError');
 const userRoutes = require('./routes/users');
 const followerRoutes = require('./routes/followers');
-const campgroundRoutes = require('./routes/campgrounds.js');
+const micropostRoutes = require('./routes/microposts.js');
 const reviewRoutes = require('./routes/reviews.js');
 const settingRoutes = require('./routes/setting.js');
 
@@ -55,8 +55,8 @@ app.get('/debug', (req, res) => {
 });
 
 app.use('/', userRoutes);
-app.use('/campgrounds', campgroundRoutes);
-app.use('/campgrounds/:id/reviews', reviewRoutes);
+app.use('/microposts', micropostRoutes);
+app.use('/microposts/:id/reviews', reviewRoutes);
 app.use('/follower', followerRoutes);
 app.use('/setting', settingRoutes);
 
