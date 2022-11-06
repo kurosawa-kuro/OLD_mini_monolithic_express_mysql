@@ -62,16 +62,16 @@ module.exports.createCampground = async (req, res) => {
 // CRUD Read
 module.exports.index = async (req, res) => {
     // 評価平均計算 バッチ化
-    const aveRates = await sequelize.query('SELECT campground_id, AVG(rating) as aveRate FROM reviews GROUP BY campground_id;', {
+    const averageRatings = await sequelize.query('SELECT campground_id, AVG(rating) as average_rating FROM reviews GROUP BY campground_id;', {
         type: QueryTypes.SELECT
     });
     // console.log("JSON.stringify(aveRate, null, 2)", JSON.stringify(aveRates, null, 2))
 
-    aveRates.forEach(async (aveRate) => {
+    averageRatings.forEach(async (averageRating) => {
         await Campground.update(
-            { average_rating: aveRate.aveRate }, {
+            { average_rating: averageRating.aveRate }, {
             where: {
-                id: aveRate.campground_id
+                id: averageRating.campground_id
             }
         });
     })
