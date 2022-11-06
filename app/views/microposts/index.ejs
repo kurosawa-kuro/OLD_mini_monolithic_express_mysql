@@ -27,7 +27,7 @@
 <% } %>
 
 <script>
-    const campgroundMap = <%- JSON.stringify(campgroundMap) %>;
+    const micropostMap = <%- JSON.stringify(micropostMap) %>;
     const mapToken = '<%= process.env.MAPBOX_TOKEN %>'
     mapboxgl.accessToken = mapToken;
 
@@ -38,9 +38,9 @@
         zoom: 4
     });
 
-    let campgroundMapGeoJson = []
-    campgroundMap.forEach((map)=>{
-        campgroundMapGeoJson.push({
+    let micropostMapGeoJson = []
+    micropostMap.forEach((map)=>{
+        micropostMapGeoJson.push({
             "id":map.id,
             "title":map.title,
             "geometry":{ 
@@ -58,7 +58,7 @@
             // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
             // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
             data: {
-                features: campgroundMapGeoJson
+                features: micropostMapGeoJson
             },
             cluster: true,
             clusterMaxZoom: 14, // Max zoom to cluster points on
@@ -148,7 +148,7 @@
         map.on('click', 'unclustered-point', (e) => {
             const search_id = e.features[0].id
             let title
-            campgroundMapGeoJson.forEach((value)=> {
+            micropostMapGeoJson.forEach((value)=> {
                 if (search_id == value.id){
                     // console.log("value.title",value.title)
                     title = value.title

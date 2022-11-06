@@ -17,9 +17,9 @@ module.exports.renderNewForm = (req, res) => {
 // CRUD Create
 module.exports.createMicropost = async (req, res) => {
     // if (!req.body.micropost) throw new ExpressError('不正なお湯処のデータです', 400);
-    let campgroundTransactionResult
+    let micropostTransactionResult
     try {
-        campgroundTransactionResult = await sequelize.transaction(async (t) => {
+        micropostTransactionResult = await sequelize.transaction(async (t) => {
             // console.log("test")
             // console.log("req.body.location", req.body.location)
             const geoData = await geocoder.forwardGeocode({
@@ -56,12 +56,11 @@ module.exports.createMicropost = async (req, res) => {
     }
 
     req.flash('success', '新しいお湯処を登録しました');
-    res.redirect(`/microposts/${campgroundTransactionResult.id}`);
+    res.redirect(`/microposts/${micropostTransactionResult.id}`);
 }
 
 // CRUD Read
 module.exports.index = async (req, res) => {
-    console.log("index")
     // Todo 評価平均計算 外部バッチ化
     const averageRatings = await sequelize.query('SELECT micropost_id, AVG(rating) as average_rating FROM reviews GROUP BY micropost_id;', {
         type: QueryTypes.SELECT
@@ -86,10 +85,10 @@ module.exports.index = async (req, res) => {
         ]
     });
 
-    let campgroundMap = []
+    let micropostMap = []
     microposts.forEach((micropost) => {
         const geometry = JSON.parse(micropost.dataValues.geometry)
-        campgroundMap.push(
+        micropostMap.push(
             {
                 id: micropost.id,
                 title: micropost.title,
@@ -101,7 +100,7 @@ module.exports.index = async (req, res) => {
 
     // console.log("microposts", JSON.stringify(microposts, null, 2))
 
-    res.render('microposts/index', { microposts, campgroundMap });
+    res.render('microposts/index', { microposts, micropostMap });
 }
 
 // CRUD Read
