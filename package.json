@@ -1,5 +1,5 @@
 {
-  "name": "web_developer_bootcamp_monolithic_express_mysql",
+  "name": "monolithic_express_mysql",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kurosawa-kuro/web_developer_bootcamp_monolithic_express_mysql.git"
+    "url": "git+https://github.com/kurosawa-kuro/monolithic_express_mysql.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kurosawa-kuro/web_developer_bootcamp_monolithic_express_mysql/issues"
+    "url": "https://github.com/kurosawa-kuro/monolithic_express_mysql/issues"
   },
   "homepage": "https://github.com/kurosawa-kuro/web_developer_bootcamp_monolithic_express_mysql#readme",
   "devDependencies": {
