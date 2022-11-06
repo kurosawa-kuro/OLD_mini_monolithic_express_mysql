@@ -73,7 +73,7 @@ module.exports.register = async (req, res, next) => {
         req.login(registeredUser, err => {
             if (err) return next(err);
 
-            req.flash('success', 'Yelp Campへようこそ');
+            req.flash('success', 'お湯ログへようこそ');
             res.redirect('/microposts');
         })
     } catch (e) {
