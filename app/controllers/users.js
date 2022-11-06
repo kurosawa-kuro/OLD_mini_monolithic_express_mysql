@@ -3,6 +3,11 @@ module.exports.renderRegister = (req, res) => {
     res.render('users/register');
 }
 
+
+module.exports.setting = async (req, res) => {
+
+    res.render('users/setting');
+}
 module.exports.profile = async (req, res) => {
     console.log("profile")
     // console.log("req.params.id", req.params.id)
@@ -45,7 +50,7 @@ module.exports.profile = async (req, res) => {
 
     console.log("user", JSON.stringify(user, null, 2))
     const abc = "abc"
-    res.render('users/profile', user);
+    res.render('users/show', user);
 }
 
 module.exports.register = async (req, res, next) => {
