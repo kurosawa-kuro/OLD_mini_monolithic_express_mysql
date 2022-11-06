@@ -61,7 +61,7 @@ module.exports.createCampground = async (req, res) => {
 
 // CRUD Read
 module.exports.index = async (req, res) => {
-    // 評価平均計算 バッチ化
+    // Todo 評価平均計算 外部バッチ化
     const averageRatings = await sequelize.query('SELECT campground_id, AVG(rating) as average_rating FROM reviews GROUP BY campground_id;', {
         type: QueryTypes.SELECT
     });
