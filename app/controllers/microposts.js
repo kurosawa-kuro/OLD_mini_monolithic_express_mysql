@@ -4,7 +4,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
-const { Micropost, Review, User, CampgroundImage, sequelize } = require("../../db/models")
+const { Micropost, Review, User, MicropostImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
 // CRUD render Create form
@@ -40,7 +40,7 @@ module.exports.createMicropost = async (req, res) => {
                 const filename = value.filename ? value.filename : null
                 const path = value.path ? value.path : null
 
-                CampgroundImage.create({
+                MicropostImage.create({
                     micropost_id: micropost.id,
                     filename,
                     path
@@ -80,8 +80,8 @@ module.exports.index = async (req, res) => {
     const microposts = await Micropost.findAll({
         include: [
             {
-                model: CampgroundImage,
-                as: 'campground_images'
+                model: MicropostImage,
+                as: 'micropost_images'
             }
         ]
     });
@@ -123,8 +123,8 @@ module.exports.showMicropost = async (req, res) => {
                 as: 'user'
             },
             {
-                model: CampgroundImage,
-                as: 'campground_images'
+                model: MicropostImage,
+                as: 'micropost_images'
             }
         ]
     });
@@ -148,8 +148,8 @@ module.exports.renderEditForm = async (req, res) => {
     const micropost = await Micropost.findByPk(req.params.id, {
         include: [
             {
-                model: CampgroundImage,
-                as: 'campground_images'
+                model: MicropostImage,
+                as: 'micropost_images'
             }
         ]
     });
@@ -172,7 +172,7 @@ module.exports.updateMicropost = async (req, res) => {
 
     if (req.body.deleteImages) {
         req.body.deleteImages.forEach(async (value, index, array) => {
-            await CampgroundImage.destroy({
+            await MicropostImage.destroy({
                 where: {
                     filename: value
                 }
@@ -184,7 +184,7 @@ module.exports.updateMicropost = async (req, res) => {
 
     req.files.forEach((value, index, array) => {
         // console.log({ value })
-        CampgroundImage.create({
+        MicropostImage.create({
             micropost_id: id,
             filename: value.filename,
             path: value.path
@@ -199,9 +199,9 @@ module.exports.updateMicropost = async (req, res) => {
 // CRUD Delete
 module.exports.deleteMicropost = async (req, res) => {
     const { id } = req.params;
-    const campgroundImage = await CampgroundImage.findAll(
+    const micropostImage = await MicropostImage.findAll(
         { where: { micropost_id: id } })
-    await cloudinary.uploader.destroy(campgroundImage[0].filename)
+    await cloudinary.uploader.destroy(micropostImage[0].filename)
 
     await Micropost.destroy({
         where: { id }

@@ -4,7 +4,7 @@ const { startPost } = require("./post.js")
 const { startUsersGroups } = require("./usersGroups")
 const { startSample } = require("./sample.js")
 const { startCampground } = require("./micropost")
-const { startCampgroundImage } = require("./campgroundImage")
+const { startCampgroundImage } = require("./micropostImage")
 
 async function start() {
     console.log("start database index")

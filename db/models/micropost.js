@@ -18,9 +18,9 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         as: 'user'
       });
-      Micropost.hasMany(models.CampgroundImage, {
+      Micropost.hasMany(models.MicropostImage, {
         foreignKey: 'micropost_id',
-        as: 'campground_images'
+        as: 'micropost_images'
       });
     }
   }

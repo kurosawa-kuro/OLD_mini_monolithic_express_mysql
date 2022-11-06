@@ -36,10 +36,10 @@ const createCampgroundImage = async () => {
         //     throw new Error('user already exists');
         // }
 
-        const user = await db.CampgroundImage.create(req.body)
+        const user = await db.MicropostImage.create(req.body)
         console.log("user", JSON.stringify(user, null, 2))
 
-        const msg = "Successfully created CampgroundImage"
+        const msg = "Successfully created MicropostImage"
         const data = user
 
         // return res.status(201).json({ isSuccess: true, msg, data })

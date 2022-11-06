@@ -3,7 +3,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
-const { Micropost, Review, User, CampgroundImage, Follower, sequelize } = require("../../db/models")
+const { Micropost, Review, User, MicropostImage, Follower, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
 
@@ -40,7 +40,7 @@ module.exports.createFollower = async (req, res) => {
     //             const filename = value.filename ? value.filename : null
     //             const path = value.path ? value.path : null
 
-    //             CampgroundImage.create({
+    //             MicropostImage.create({
     //                 micropost_id: micropost.id,
     //                 filename,
     //                 path
@@ -63,9 +63,9 @@ module.exports.createFollower = async (req, res) => {
 // CRUD Delete
 module.exports.deleteFollower = async (req, res) => {
     const { id } = req.params;
-    const campgroundImage = await CampgroundImage.findAll(
+    const micropostImage = await MicropostImage.findAll(
         { where: { micropost_id: id } })
-    await cloudinary.uploader.destroy(campgroundImage[0].filename)
+    await cloudinary.uploader.destroy(micropostImage[0].filename)
 
     await Micropost.destroy({
         where: { id }

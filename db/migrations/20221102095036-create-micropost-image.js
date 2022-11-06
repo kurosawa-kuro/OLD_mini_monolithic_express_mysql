@@ -2,7 +2,7 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('campground_images', {
+    await queryInterface.createTable('micropost_images', {
       id: {
         allowNull: false,
         autoIncrement: true,

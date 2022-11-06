@@ -45,7 +45,7 @@
                 <input class="form-control" type="file" id="image" name="image" multiple>
             </div>
             <div class="mb-3">
-                <% micropost.campground_images.forEach(function(img, i) { %>
+                <% micropost.micropost_images.forEach(function(img, i) { %>
                     <img src="<%= img.path %>" class="img-thumbnail" alt=""  style="height: 250px;">
                     <div class="form-check-inline">
                         <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= img.filename %>">

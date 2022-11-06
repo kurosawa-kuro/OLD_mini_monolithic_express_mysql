@@ -1,4 +1,4 @@
-const { Micropost, Review, User, Follower, CampgroundImage } = require("../../db/models")
+const { Micropost, Review, User, Follower, MicropostImage } = require("../../db/models")
 
 module.exports.renderRegister = (req, res) => {
     res.render('users/register');
@@ -21,8 +21,8 @@ module.exports.profile = async (req, res) => {
                 as: 'microposts',
                 include: [
                     {
-                        model: CampgroundImage,
-                        as: 'campground_images'
+                        model: MicropostImage,
+                        as: 'micropost_images'
                     }
                 ]
             }, {
