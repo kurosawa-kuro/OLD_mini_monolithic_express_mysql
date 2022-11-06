@@ -1,15 +1,19 @@
-const { Campground, Review, User } = require("../../db/models")
+const { Campground, Review, User, Setting } = require("../../db/models")
 
-module.exports.createReview = async (req, res) => {
-    const { id } = req.params;
-    const campground = await Campground.findByPk(id);
-    console.log({ campground })
-    req.body.user_id = req.user.id
-    req.body.campground_id = id
+module.exports.renderNewForm = async (req, res) => { }
 
-    req.body.created_at = new Date()
-    req.body.updated_at = new Date()
-    await Review.create(req.body);
+module.exports.createSetteing = async (req, res) => {
+    console.log(createSetteing)
+
+    // const { id } = req.params;
+    // const campground = await Campground.findByPk(id);
+    // console.log({ campground })
+    // req.body.user_id = req.user.id
+    // req.body.campground_id = id
+
+    // req.body.created_at = new Date()
+    // req.body.updated_at = new Date()
+    // await Review.create(req.body);
 
     req.flash('success', 'レビューを登録しました');
     res.redirect(`/campgrounds/${campground.id}`);

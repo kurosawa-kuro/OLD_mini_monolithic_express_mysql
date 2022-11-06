@@ -8,8 +8,8 @@ const router = express.Router();
 router.route('/user/:id')
     .get(users.profile)
 
-router.route('/user')
-    .get(users.setting)
+// router.route('/user')
+//     .get(users.index)
 
 router.route('/register')
     .get(users.renderRegister)

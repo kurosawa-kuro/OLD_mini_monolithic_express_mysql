@@ -13,6 +13,7 @@ const userRoutes = require('./routes/users');
 const followerRoutes = require('./routes/followers');
 const campgroundRoutes = require('./routes/campgrounds.js');
 const reviewRoutes = require('./routes/reviews.js');
+const settingRoutes = require('./routes/setting.js');
 
 const app = express();
 
@@ -57,6 +58,7 @@ app.use('/', userRoutes);
 app.use('/campgrounds', campgroundRoutes);
 app.use('/campgrounds/:id/reviews', reviewRoutes);
 app.use('/follower', followerRoutes);
+app.use('/setting', settingRoutes);
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('ページが見つかりませんでした', 404));

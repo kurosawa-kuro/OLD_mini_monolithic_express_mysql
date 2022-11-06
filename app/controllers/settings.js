@@ -1,4 +1,4 @@
-const { Campground, Review, User, Follower, CampgroundImage } = require("../../db/models")
+const { Campground, Review, User, Follower } = require("../../db/models")
 
 module.exports.renderRegister = (req, res) => {
     res.render('users/register');
@@ -18,13 +18,7 @@ module.exports.profile = async (req, res) => {
         include: [
             {
                 model: Campground,
-                as: 'campgrounds',
-                include: [
-                    {
-                        model: CampgroundImage,
-                        as: 'campground_images'
-                    }
-                ]
+                as: 'campgrounds'
             }, {
                 model: Review,
                 as: 'reviews',
@@ -32,8 +26,7 @@ module.exports.profile = async (req, res) => {
                     {
                         model: Campground,
                         as: 'campground'
-                    }
-                ]
+                    }]
             }]
     })
     console.log("userdata", JSON.stringify(userdata, null, 2))
@@ -56,13 +49,8 @@ module.exports.profile = async (req, res) => {
     // console.log("followerFullData", JSON.stringify(followerFullData, null, 2))
     const user = { user: userdata, loginUser: req.user, follower }
 
-    // console.log("user", JSON.stringify(user, null, 2))
-
-    var strTemp = '"https://res.cloudinary.com/dzorivc9n/image/upload/v1667717982/Develope/hzcj2ns25mxamthlxmrv.jpg"'
-    if (strTemp.indexOf("\"") != -1) {
-        console.log(strTemp.replace(/[\"]/g, ""))
-    }
-
+    console.log("user", JSON.stringify(user, null, 2))
+    const abc = "abc"
     res.render('users/show', user);
 }
 

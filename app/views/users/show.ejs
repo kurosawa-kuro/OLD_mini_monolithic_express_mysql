@@ -31,20 +31,36 @@ add Follwer
 <div class="reviews">
 <h2>posted reviews</h2>
 
-<% for(let review of user.reviews) { %>
-    <ul>
-        <li><a href="http://localhost:3000/campgrounds/<%= review.campground_id %>"><%= review.rating %> : <%= review.campground.title %></a></li>
-    </ul>
-<% } %>
-</div>
+<% if(user.reviews){ %> 
+    <% for(let review of user.reviews) { %>
+        <ul>
+            <li><a href="http://localhost:3000/campgrounds/<%= review.campground_id %>"><img src="<%= review.rating %>" alt="" srcset=""><%= review.rating %> : <%= review.campground.title %></a></li>
+        </ul>
+    <% } %>
+    </div>
+<% } %> 
+
 
 <div class="campgrounds">
 <h2>posted campgrounds</h2>
 
-<% for(let campground of user.campgrounds) { %>
+test
+<%= user.id  %> 
+test
+
+
+<% if(user.campgrounds) {%> 
+<% for(let campground of user.campgrounds) { 
+    let path = JSON.stringify(campground.campground_images[0]?.path)
+    var a = path.slice( 1 )
+    console.log("a",a)
+    var b = a.slice( 0, -1 ) 
+    console.log("b",b)
+    %>
     <ul>
-        <li><a href="http://localhost:3000/campgrounds/<%= campground.id %>"><%= campground.title %></a></li>
+        <li><a href="http://localhost:3000/campgrounds/<%= campground.id %>"><img src="<%= b %>" style='height: 35px;'> <%= campground.title %></a></li>
     </ul>
 <% } %>
 </div>
+    <% } %> 
 </div>

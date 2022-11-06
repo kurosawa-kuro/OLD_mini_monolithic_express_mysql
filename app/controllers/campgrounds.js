@@ -19,14 +19,14 @@ module.exports.createCampground = async (req, res) => {
     let campgroundTransactionResult
     try {
         campgroundTransactionResult = await sequelize.transaction(async (t) => {
-            console.log("test")
-            console.log("req.body.location", req.body.location)
+            // console.log("test")
+            // console.log("req.body.location", req.body.location)
             const geoData = await geocoder.forwardGeocode({
                 query: req.body.location,
                 limit: 1
             }).send();
             // console.log({ geoData })
-            console.log("geoData.body.features[0].geometry", geoData.body.features[0].geometry.coordinates)
+            // console.log("geoData.body.features[0].geometry", geoData.body.features[0].geometry.coordinates)
             const coordinates = geoData.body.features[0].geometry.coordinates
             const geometry = { 'coordinates': coordinates, 'type': 'Point' }
 
@@ -109,6 +109,7 @@ module.exports.showCampground = async (req, res) => {
             }
         ]
     });
+    console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
 
     const geometry = JSON.parse(campground.dataValues.geometry)
     const coordinates = geometry.coordinates

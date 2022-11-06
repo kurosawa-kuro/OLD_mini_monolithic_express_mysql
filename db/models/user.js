@@ -56,6 +56,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'user_id',
         as: 'follower'
       });
+      User.hasOne(models.Setting, {
+        foreignKey: 'user_id',
+        as: 'setting'
+      });
     }
   }
   User.init({
