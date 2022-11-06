@@ -3,28 +3,28 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Campground extends Model {
+  class Micropost extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Campground.hasMany(models.Review, {
-        foreignKey: 'campground_id',
+      Micropost.hasMany(models.Review, {
+        foreignKey: 'micropost_id',
         as: 'reviews'
       });
-      Campground.belongsTo(models.User, {
+      Micropost.belongsTo(models.User, {
         foreignKey: 'user_id',
         as: 'user'
       });
-      Campground.hasMany(models.CampgroundImage, {
-        foreignKey: 'campground_id',
+      Micropost.hasMany(models.CampgroundImage, {
+        foreignKey: 'micropost_id',
         as: 'campground_images'
       });
     }
   }
-  Campground.init({
+  Micropost.init({
     title: DataTypes.STRING,
     image: DataTypes.STRING,
     price: DataTypes.STRING,
@@ -36,11 +36,11 @@ module.exports = (sequelize, DataTypes) => {
     updated_at: DataTypes.DATE
   }, {
     sequelize,
-    modelName: 'Campground',
-    tableName: 'campgrounds',
+    modelName: 'Micropost',
+    tableName: 'microposts',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   });
-  return Campground;
+  return Micropost;
 };

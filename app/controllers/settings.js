@@ -1,4 +1,4 @@
-const { Campground, Review, User, Follower } = require("../../db/models")
+const { Micropost, Review, User, Follower } = require("../../db/models")
 
 module.exports.renderRegister = (req, res) => {
     res.render('users/register');
@@ -17,15 +17,15 @@ module.exports.profile = async (req, res) => {
     const userdata = await User.findByPk(req.params.id, {
         include: [
             {
-                model: Campground,
-                as: 'campgrounds'
+                model: Micropost,
+                as: 'microposts'
             }, {
                 model: Review,
                 as: 'reviews',
                 include: [
                     {
-                        model: Campground,
-                        as: 'campground'
+                        model: Micropost,
+                        as: 'micropost'
                     }]
             }]
     })
@@ -62,7 +62,7 @@ module.exports.register = async (req, res, next) => {
             if (err) return next(err);
 
             req.flash('success', 'Yelp Campへようこそ');
-            res.redirect('/campgrounds');
+            res.redirect('/microposts');
         })
     } catch (e) {
 
@@ -77,7 +77,7 @@ module.exports.renderLogin = (req, res) => {
 
 module.exports.login = (req, res) => {
     req.flash('success', 'おかえりなさい！！');
-    const redirectUrl = req.session.returnTo || '/campgrounds';
+    const redirectUrl = req.session.returnTo || '/microposts';
     delete req.session.returnTo;
 
     res.redirect(redirectUrl);
@@ -86,5 +86,5 @@ module.exports.login = (req, res) => {
 module.exports.logout = (req, res) => {
     req.logout();
     req.flash('success', 'ログアウトしました');
-    res.redirect('/campgrounds');
+    res.redirect('/microposts');
 }

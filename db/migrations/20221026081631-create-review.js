@@ -14,9 +14,9 @@ module.exports = {
         references: { model: 'users', key: 'id' },
         onDelete: 'CASCADE',
       },
-      campground_id: {
+      micropost_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'campgrounds', key: 'id' },
+        references: { model: 'microposts', key: 'id' },
         onDelete: 'CASCADE',
       },
       body: {

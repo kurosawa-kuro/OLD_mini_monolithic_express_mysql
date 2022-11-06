@@ -5,13 +5,13 @@
     <div class="col-6">
         <div id="campgroundCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                <% campground.campground_images.forEach((img, i) => { %>
+                <% micropost.campground_images.forEach((img, i) => { %>
                 <div class="carousel-item <%= i === 0 ? 'active': '' %>">
                     <img src="<%= img.path %>" class="d-block w-100" alt="">
                 </div>
                 <% }) %>
             </div>
-            <% if(campground.campground_images.length > 1) { %>
+            <% if(micropost.campground_images.length > 1) { %>
             <button class="carousel-control-prev" type="button" data-bs-target="#campgroundCarousel"
                 data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -26,18 +26,18 @@
         </div>
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title"><%= campground.title %></h5>
-                <p class="card-text"><%= campground.description %></p>
+                <h5 class="card-title"><%= micropost.title %></h5>
+                <p class="card-text"><%= micropost.description %></p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item text-muted"><%= campground.location %></li>
-                <li class="list-group-item">登録者：<%= campground.user?.name %></li>
-                <li class="list-group-item">¥<%= campground.price %>/泊</li>
+                <li class="list-group-item text-muted"><%= micropost.location %></li>
+                <li class="list-group-item">登録者：<%= micropost.user?.name %></li>
+                <li class="list-group-item">¥<%= micropost.price %>/泊</li>
             </ul>
-            <% if(currentUser && campground.user?.id == currentUser.id) { %>
+            <% if(currentUser && micropost.user?.id == currentUser.id) { %>
             <div class="card-body">
-                <a class="btn btn-info" href="/campgrounds/<%= campground.id %>/edit">編集する</a>
-                <form class="d-inline" action="/campgrounds/<%= campground.id %>?_method=DELETE" method="POST">
+                <a class="btn btn-info" href="/microposts/<%= micropost.id %>/edit">編集する</a>
+                <form class="d-inline" action="/microposts/<%= micropost.id %>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">削除する</button>
                 </form>
             </div>
@@ -51,7 +51,7 @@
         <div id='map' style='width: 400px; height: 300px;'></div>
         <% if(currentUser) { %>
         <h2>レビュー</h2>
-        <form action="/campgrounds/<%= campground.id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
+        <form action="/microposts/<%= micropost.id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <div>
                 <fieldset class="starability-basic">
                     <input type="radio" id="first-rate1" name="rating" checked value="1" />
@@ -76,7 +76,7 @@
             <button class="btn btn-success">投稿する</button>
         </form>
         <% } %>
-        <% for (let review of campground.reviews) { %>
+        <% for (let review of micropost.reviews) { %>
         <div class="card mb-3">
             <div class="card-body">
                 <h5 class="card-title"><%= review.user.name %></h5>
@@ -85,7 +85,7 @@
                 </p>
                 <p class="card-text">コメント：<%= review.body %></p>
                 <% if(currentUser && review.user.id == currentUser.id) { %>
-                <form action="/campgrounds/<%= campground.id %>/reviews/<%= review.id %>?_method=DELETE"
+                <form action="/microposts/<%= micropost.id %>/reviews/<%= review.id %>?_method=DELETE"
                     method="POST">
                     <button class="btn btn-sm btn-danger">削除する</button>
                 </form>
@@ -98,7 +98,7 @@
 
 <script>
     const mapToken = '<%= process.env.MAPBOX_TOKEN %>'
-    const campground = '<%- JSON.stringify(campground) %>'
+    const micropost = '<%- JSON.stringify(micropost) %>'
     const coordinatesJSON = '<%- JSON.stringify(coordinates) %>'
     const coordinates = JSON.parse(coordinatesJSON)
 
@@ -115,7 +115,7 @@
         .setLngLat(coordinates)
         .setPopup(
             new mapboxgl.Popup({ offset: 25 })
-            // .setHTML(`<h4>${campground.title}</h4><p>${campground.location}</p>`)
+            // .setHTML(`<h4>${micropost.title}</h4><p>${micropost.location}</p>`)
         )
         .addTo(map);
 </script>

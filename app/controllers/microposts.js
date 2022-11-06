@@ -4,19 +4,19 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
-const { Campground, Review, User, CampgroundImage, sequelize } = require("../../db/models")
+const { Micropost, Review, User, CampgroundImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
 // CRUD render Create form
 module.exports.renderNewForm = (req, res) => {
 
-    res.render('campgrounds/new');
+    res.render('microposts/new');
 }
 
 
 // CRUD Create
-module.exports.createCampground = async (req, res) => {
-    // if (!req.body.campground) throw new ExpressError('不正なお湯処のデータです', 400);
+module.exports.createMicropost = async (req, res) => {
+    // if (!req.body.micropost) throw new ExpressError('不正なお湯処のデータです', 400);
     let campgroundTransactionResult
     try {
         campgroundTransactionResult = await sequelize.transaction(async (t) => {
@@ -33,7 +33,7 @@ module.exports.createCampground = async (req, res) => {
 
             req.body.user_id = req.user.id;
             req.body.geometry = geometry;
-            const campground = await Campground.create(req.body);
+            const micropost = await Micropost.create(req.body);
             // console.log("req.files : ", req.files)
 
             req.files.forEach((value, index, array) => {
@@ -41,14 +41,14 @@ module.exports.createCampground = async (req, res) => {
                 const path = value.path ? value.path : null
 
                 CampgroundImage.create({
-                    campground_id: campground.id,
+                    micropost_id: micropost.id,
                     filename,
                     path
                 })
             });
 
 
-            return campground;
+            return micropost;
         });
     } catch (error) {
         // If the execution reaches this line, an error occurred.
@@ -56,27 +56,28 @@ module.exports.createCampground = async (req, res) => {
     }
 
     req.flash('success', '新しいお湯処を登録しました');
-    res.redirect(`/campgrounds/${campgroundTransactionResult.id}`);
+    res.redirect(`/microposts/${campgroundTransactionResult.id}`);
 }
 
 // CRUD Read
 module.exports.index = async (req, res) => {
+    console.log("index")
     // Todo 評価平均計算 外部バッチ化
-    const averageRatings = await sequelize.query('SELECT campground_id, AVG(rating) as average_rating FROM reviews GROUP BY campground_id;', {
+    const averageRatings = await sequelize.query('SELECT micropost_id, AVG(rating) as average_rating FROM reviews GROUP BY micropost_id;', {
         type: QueryTypes.SELECT
     });
     // console.log("JSON.stringify(aveRate, null, 2)", JSON.stringify(aveRates, null, 2))
 
     averageRatings.forEach(async (averageRating) => {
-        await Campground.update(
+        await Micropost.update(
             { average_rating: averageRating.average_rating }, {
             where: {
-                id: averageRating.campground_id
+                id: averageRating.micropost_id
             }
         });
     })
 
-    const campgrounds = await Campground.findAll({
+    const microposts = await Micropost.findAll({
         include: [
             {
                 model: CampgroundImage,
@@ -86,26 +87,26 @@ module.exports.index = async (req, res) => {
     });
 
     let campgroundMap = []
-    campgrounds.forEach((campground) => {
-        const geometry = JSON.parse(campground.dataValues.geometry)
+    microposts.forEach((micropost) => {
+        const geometry = JSON.parse(micropost.dataValues.geometry)
         campgroundMap.push(
             {
-                id: campground.id,
-                title: campground.title,
+                id: micropost.id,
+                title: micropost.title,
                 latitude: geometry.coordinates[0],
                 longitude: geometry.coordinates[1],
             }
         )
     })
 
-    // console.log("campgrounds", JSON.stringify(campgrounds, null, 2))
+    // console.log("microposts", JSON.stringify(microposts, null, 2))
 
-    res.render('campgrounds/index', { campgrounds, campgroundMap });
+    res.render('microposts/index', { microposts, campgroundMap });
 }
 
 // CRUD Read
-module.exports.showCampground = async (req, res) => {
-    const campground = await Campground.findByPk(req.params.id, {
+module.exports.showMicropost = async (req, res) => {
+    const micropost = await Micropost.findByPk(req.params.id, {
         include: [
             {
                 model: Review,
@@ -127,24 +128,24 @@ module.exports.showCampground = async (req, res) => {
             }
         ]
     });
-    // console.log("JSON.stringify(campground, null, 2)", JSON.stringify(campground, null, 2))
+    // console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
 
-    const geometry = JSON.parse(campground.dataValues.geometry)
+    const geometry = JSON.parse(micropost.dataValues.geometry)
     const coordinates = geometry.coordinates
     // console.log("geometry.coordinates", geometry.coordinates)
 
 
-    if (!campground) {
+    if (!micropost) {
         req.flash('error', 'お湯処は見つかりませんでした');
-        return res.redirect('/campgrounds');
+        return res.redirect('/microposts');
     }
-    res.render('campgrounds/show', { campground, coordinates });
+    res.render('microposts/show', { micropost, coordinates });
 }
 
 
 // CRUD render Update form
 module.exports.renderEditForm = async (req, res) => {
-    const campground = await Campground.findByPk(req.params.id, {
+    const micropost = await Micropost.findByPk(req.params.id, {
         include: [
             {
                 model: CampgroundImage,
@@ -152,19 +153,19 @@ module.exports.renderEditForm = async (req, res) => {
             }
         ]
     });
-    if (!campground) {
+    if (!micropost) {
         req.flash('error', 'お湯処は見つかりませんでした');
-        return res.redirect('/campgrounds');
+        return res.redirect('/microposts');
     }
 
-    res.render('campgrounds/edit', { campground });
+    res.render('microposts/edit', { micropost });
 }
 
 // CRUD Update
-module.exports.updateCampground = async (req, res) => {
+module.exports.updateMicropost = async (req, res) => {
     const { id } = req.params;
 
-    await Campground.update(
+    await Micropost.update(
         req.body, {
         where: { id }
     });
@@ -184,7 +185,7 @@ module.exports.updateCampground = async (req, res) => {
     req.files.forEach((value, index, array) => {
         // console.log({ value })
         CampgroundImage.create({
-            campground_id: id,
+            micropost_id: id,
             filename: value.filename,
             path: value.path
         })
@@ -192,20 +193,20 @@ module.exports.updateCampground = async (req, res) => {
 
 
     req.flash('success', 'お湯処を更新しました');
-    res.redirect(`/campgrounds/${id}`);
+    res.redirect(`/microposts/${id}`);
 }
 
 // CRUD Delete
-module.exports.deleteCampground = async (req, res) => {
+module.exports.deleteMicropost = async (req, res) => {
     const { id } = req.params;
     const campgroundImage = await CampgroundImage.findAll(
-        { where: { campground_id: id } })
+        { where: { micropost_id: id } })
     await cloudinary.uploader.destroy(campgroundImage[0].filename)
 
-    await Campground.destroy({
+    await Micropost.destroy({
         where: { id }
     });
 
     req.flash('success', 'お湯処を削除しました');
-    res.redirect('/campgrounds');
+    res.redirect('/microposts');
 }

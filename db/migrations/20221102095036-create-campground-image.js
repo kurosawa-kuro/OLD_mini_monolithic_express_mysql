@@ -9,9 +9,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      campground_id: {
+      micropost_id: {
         type: Sequelize.INTEGER,
-        references: { model: 'campgrounds', key: 'id' },
+        references: { model: 'microposts', key: 'id' },
         onDelete: 'CASCADE',
       },
       filename: {
