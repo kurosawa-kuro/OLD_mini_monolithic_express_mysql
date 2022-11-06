@@ -32,6 +32,10 @@ module.exports = {
       geometry: {
         type: Sequelize.JSON
       },
+      average_rating: {
+        type: Sequelize.FLOAT,
+        defaultValue: 3.5
+      },
       created_at: {
         type: Sequelize.DATE
       },
