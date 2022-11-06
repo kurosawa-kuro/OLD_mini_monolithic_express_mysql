@@ -82,6 +82,8 @@ module.exports.index = async (req, res) => {
         )
     })
 
+    // console.log("campgrounds", JSON.stringify(campgrounds, null, 2))
+
     res.render('campgrounds/index', { campgrounds, campgroundMap });
 }
 

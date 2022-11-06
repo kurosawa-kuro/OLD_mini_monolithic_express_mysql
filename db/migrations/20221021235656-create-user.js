@@ -18,6 +18,12 @@ module.exports = {
       password: {
         type: Sequelize.STRING
       },
+      img_path: {
+        type: Sequelize.STRING
+      },
+      img_filename: {
+        type: Sequelize.STRING
+      },
       created_at: {
         type: Sequelize.DATE
       },

@@ -41,7 +41,7 @@ module.exports.profile = async (req, res) => {
     // console.log({ followers })
 
     const followerIdList = followers.map((val) => { return val.follower_id })
-    // console.log({ followerIdList })
+
 
     const followerFullData = await User.findAll({
         where: {
@@ -51,7 +51,7 @@ module.exports.profile = async (req, res) => {
 
     const follower = followerFullData
 
-    // console.log({ followerFullData })
+    console.log("follower", JSON.stringify(follower, null, 2))
 
     // console.log("followerFullData", JSON.stringify(followerFullData, null, 2))
     const user = { user: userdata, loginUser: req.user, follower }
