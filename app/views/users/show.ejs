@@ -1,23 +1,25 @@
 <% layout('layouts/boilerplate') %>
 
+
+    
+
 <h1>Profile</h1>
+<div style="display: flex; align-items: center;">
+<h2 style="margin-right: 20px;"><%= user.name %></h2>
 
-<h2>Login User</h2>
-<%= loginUser.name %>
-
-<hr>
-add Follwer
-
-
-<form action="http://localhost:3000/follower/<%= user.id %>" method="POST" >
-    <div class="d-grid">
-        <!-- <input type="hidden" name="follower" value="<%= user.id %>"> -->
-        <button class="btn btn-success">add Follower</button>
-    </div>
-</form>
-
-<hr>
+    <% if(loginUser.id !== user.id) { %> 
+    <form action="http://localhost:3000/follower/<%= user.id %>" method="POST" >
+        <div>
+            <!-- <input type="hidden" name="follower" value="<%= user.id %>"> -->
+            <button class="btn btn-success" style="width: 130px;">add Follower</button>
+        </div>
+    </form>
+    <% } %>
+     
+</div>
+<div style="margin-top:40px;">
 <h2>followers</h2>
+</div>
 
 <% for(let data of follower) { %>
 <ul>
@@ -25,10 +27,10 @@ add Follwer
 </ul>
 <% } %> 
 
-<div style="display: flex;justify-content: space-evenly;">
+<div style="display: flex; margin-top: 40px;">
 <hr>
 
-<div class="reviews">
+<div class="reviews" style="margin-right: 30px;">
 <h2>posted reviews</h2>
 
 <% if(user.reviews){ %> 
@@ -44,21 +46,22 @@ add Follwer
 <div class="campgrounds">
 <h2>posted campgrounds</h2>
 
-test
-<%= user.id  %> 
-test
-
-
 <% if(user.campgrounds) {%> 
 <% for(let campground of user.campgrounds) { 
     let path = JSON.stringify(campground.campground_images[0]?.path)
+    if(!path){ path="" }
     path = path.slice( 1 )
     path = path.slice( 0, -1 ) 
     %>
     <ul>
-        <li><a href="http://localhost:3000/campgrounds/<%= campground.id %>"><img src="<%= path %>" style='height: 35px;'> <%= campground.title %></a></li>
+        <li><img src="<%= path %>" style='height: 35px;'> <a href="http://localhost:3000/campgrounds/<%= campground.id %>"><%= campground.title %></a></li>
     </ul>
 <% } %>
 </div>
     <% } %> 
+</div>
+
+<div style="background-color: darkgray; margin-bottom: 20px;">
+    <h4>Login User</h4>
+    <%= loginUser.name %>
 </div>
