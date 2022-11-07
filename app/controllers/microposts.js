@@ -7,6 +7,14 @@ const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 const { Micropost, Review, User, MicropostImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
+const tagJSON = [
+    { tag: 'sauna', name: 'サウナ' },
+    { tag: 'cold_water', name: '水風呂' },
+    { tag: 'open_air', name: '露天' },
+    { tag: 'food', name: '食事処' },
+    { tag: 'wifi', name: 'Wifi' },
+]
+
 // CRUD render Create form
 module.exports.renderNewForm = (req, res) => {
 
@@ -138,7 +146,7 @@ module.exports.showMicropost = async (req, res) => {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/microposts');
     }
-    res.render('microposts/show', { micropost, coordinates });
+    res.render('microposts/show', { micropost, coordinates, tagJSON });
 }
 
 
@@ -159,7 +167,7 @@ module.exports.renderEditForm = async (req, res) => {
 
     console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
 
-    res.render('microposts/edit', { micropost });
+    res.render('microposts/edit', { micropost, tagJSON });
 }
 
 // CRUD Update
