@@ -58,7 +58,7 @@
                 <label class="form-label" for="description">タグ（複数回答可）</label>
                 <br>
 
-                <% tagJSON.forEach((val)=> { %>                 
+                <% tagList.forEach((val)=> { %>                 
                 <span style="margin-right: 10px;">
                     <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% if(micropost.tag && JSON.parse(micropost.tag).includes(val.tag)){ %> checked="checked" <% } %>><%= val.name %>
                 </span>

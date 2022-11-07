@@ -7,7 +7,7 @@ const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 const { Micropost, Review, User, MicropostImage, sequelize } = require("../../db/models")
 const { cloudinary } = require('../cloudinary');
 
-const tagJSON = [
+const tagList = [
     { tag: 'sauna', name: 'サウナ' },
     { tag: 'cold_water', name: '水風呂' },
     { tag: 'open_air', name: '露天' },
@@ -136,7 +136,7 @@ module.exports.showMicropost = async (req, res) => {
         return res.redirect('/microposts');
     }
 
-    res.render('microposts/show', { micropost, coordinates, tagJSON });
+    res.render('microposts/show', { micropost, coordinates, tagList });
 }
 
 
@@ -155,7 +155,7 @@ module.exports.renderEditForm = async (req, res) => {
         return res.redirect('/microposts');
     }
 
-    res.render('microposts/edit', { micropost, tagJSON });
+    res.render('microposts/edit', { micropost, tagList });
 }
 
 // CRUD Update

@@ -32,7 +32,7 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-muted"><%= micropost.location %></li>
                 <li class="list-group-item text-muted">
-                    <% tagJSON.forEach((val)=> { %>                 
+                    <% tagList.forEach((val)=> { %>                 
                         <span style="margin-right: 10px;">
                             <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% 
                             if(micropost.tag && JSON.parse(micropost.tag).includes(val.tag))
