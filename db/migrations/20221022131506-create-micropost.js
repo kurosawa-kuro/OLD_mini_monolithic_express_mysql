@@ -36,6 +36,9 @@ module.exports = {
         type: Sequelize.FLOAT,
         defaultValue: 3.5
       },
+      tag: {
+        type: Sequelize.STRING
+      },
       created_at: {
         type: Sequelize.DATE
       },
