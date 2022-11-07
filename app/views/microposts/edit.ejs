@@ -64,9 +64,11 @@
                     {tag:'food',name:'食事処'},
                     {tag:'wifi',name:'Wifi'},
                 ] %> 
-                
-                <% tagJSON.forEach((val)=> { %> 
+
+                <% tagJSON.forEach((val)=> { %>                 
+                <span style="margin-right: 10px;">
                     <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% if(micropost.tag && JSON.parse(micropost.tag).includes(val.tag)){ %> checked="checked" <% } %>><%= val.name %>
+                </span>
                 <% }) %> 
             </div>
             <div class="mb-3">
