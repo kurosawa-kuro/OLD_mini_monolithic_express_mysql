@@ -32,6 +32,7 @@ module.exports = (sequelize, DataTypes) => {
     location: DataTypes.STRING,
     geometry: DataTypes.JSON,
     average_rating: DataTypes.FLOAT,
+    tag: DataTypes.JSON,
     created_at: DataTypes.DATE,
     updated_at: DataTypes.DATE
   }, {

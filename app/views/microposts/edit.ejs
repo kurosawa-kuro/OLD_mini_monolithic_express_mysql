@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+
 <div class="row">
     <h1 class="text-center">お湯処の編集</h1>
     <div class="offset-3 col-6">
@@ -53,6 +54,13 @@
                     <label for="image-<%= i %>">削除する</label>
                 <% }) %>
             </div>
+            <p>タグ（複数回答可）: 
+                <input type="checkbox" name="tag[]" value="white" <% if(JSON.parse(micropost.tag).includes("white")){ %> checked="checked" <% } %>>白
+                <input type="checkbox" name="tag[]" value="black" <% if(JSON.parse(micropost.tag).includes("black")){ %> checked="checked" <% } %>>黒
+                <input type="checkbox" name="tag[]" value="red" <% if(JSON.parse(micropost.tag).includes("red")){ %> checked="checked" <% } %>>赤
+                <input type="checkbox" name="tag[]" value="blue" <% if(JSON.parse(micropost.tag).includes("blue")){ %> checked="checked" <% } %>>青
+                <input type="checkbox" name="tag[]" value="green" <% if(JSON.parse(micropost.tag).includes("green")){ %> checked="checked" <% } %>>緑
+            </p>
             <div class="mb-3">
                 <button class="btn btn-info">更新する</button>
             </div>

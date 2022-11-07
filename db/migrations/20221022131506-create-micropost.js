@@ -37,7 +37,7 @@ module.exports = {
         defaultValue: 3.5
       },
       tag: {
-        type: Sequelize.STRING
+        type: Sequelize.JSON
       },
       created_at: {
         type: Sequelize.DATE
