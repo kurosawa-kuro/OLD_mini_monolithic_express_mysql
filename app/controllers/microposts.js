@@ -28,21 +28,17 @@ module.exports.createMicropost = async (req, res) => {
     let micropostTransactionResult
     try {
         micropostTransactionResult = await sequelize.transaction(async (t) => {
-            // console.log("test")
             console.log("req.body", req.body)
             const geoData = await geocoder.forwardGeocode({
                 query: req.body.location,
                 limit: 1
             }).send();
-            // console.log({ geoData })
-            // console.log("geoData.body.features[0].geometry", geoData.body.features[0].geometry.coordinates)
             const coordinates = geoData.body.features[0].geometry.coordinates
             const geometry = { 'coordinates': coordinates, 'type': 'Point' }
 
             req.body.user_id = req.user.id;
             req.body.geometry = geometry;
             const micropost = await Micropost.create(req.body);
-            // console.log("req.files : ", req.files)
 
             req.files.forEach((value, index, array) => {
                 const filename = value.filename ? value.filename : null
@@ -54,7 +50,6 @@ module.exports.createMicropost = async (req, res) => {
                     path
                 })
             });
-
 
             return micropost;
         });
@@ -73,7 +68,6 @@ module.exports.index = async (req, res) => {
     const averageRatings = await sequelize.query('SELECT micropost_id, AVG(rating) as average_rating FROM reviews GROUP BY micropost_id;', {
         type: QueryTypes.SELECT
     });
-    // console.log("JSON.stringify(aveRate, null, 2)", JSON.stringify(aveRates, null, 2))
 
     averageRatings.forEach(async (averageRating) => {
         await Micropost.update(
@@ -106,8 +100,6 @@ module.exports.index = async (req, res) => {
         )
     })
 
-    // console.log("microposts", JSON.stringify(microposts, null, 2))
-
     res.render('microposts/index', { microposts, micropostMap });
 }
 
@@ -135,17 +127,15 @@ module.exports.showMicropost = async (req, res) => {
             }
         ]
     });
-    // console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
 
     const geometry = JSON.parse(micropost.dataValues.geometry)
     const coordinates = geometry.coordinates
-    // console.log("geometry.coordinates", geometry.coordinates)
-
 
     if (!micropost) {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/microposts');
     }
+
     res.render('microposts/show', { micropost, coordinates, tagJSON });
 }
 
@@ -164,8 +154,6 @@ module.exports.renderEditForm = async (req, res) => {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/microposts');
     }
-
-    // console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
 
     res.render('microposts/edit', { micropost, tagJSON });
 }
@@ -186,13 +174,12 @@ module.exports.updateMicropost = async (req, res) => {
                     filename: value
                 }
             });
-            // クラウディナリからも削除
+
             await cloudinary.uploader.destroy(value)
         })
     }
 
     req.files.forEach((value, index, array) => {
-        // console.log({ value })
         MicropostImage.create({
             micropost_id: id,
             filename: value.filename,
