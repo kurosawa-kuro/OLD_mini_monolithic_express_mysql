@@ -54,13 +54,21 @@
                     <label for="image-<%= i %>">削除する</label>
                 <% }) %>
             </div>
-            <p>タグ（複数回答可）: 
-                <input type="checkbox" name="tag[]" value="white" <% if(JSON.parse(micropost.tag).includes("white")){ %> checked="checked" <% } %>>白
-                <input type="checkbox" name="tag[]" value="black" <% if(JSON.parse(micropost.tag).includes("black")){ %> checked="checked" <% } %>>黒
-                <input type="checkbox" name="tag[]" value="red" <% if(JSON.parse(micropost.tag).includes("red")){ %> checked="checked" <% } %>>赤
-                <input type="checkbox" name="tag[]" value="blue" <% if(JSON.parse(micropost.tag).includes("blue")){ %> checked="checked" <% } %>>青
-                <input type="checkbox" name="tag[]" value="green" <% if(JSON.parse(micropost.tag).includes("green")){ %> checked="checked" <% } %>>緑
-            </p>
+            <div class="mb-3">
+                <label class="form-label" for="description">タグ（複数回答可）</label>
+                <br>
+                <% const tagJSON = [
+                    {tag:'white',name:'白'},
+                    {tag:'black',name:'黒'},
+                    {tag:'red',name:'赤'},
+                    {tag:'blue',name:'青'},
+                    {tag:'green',name:'緑'},
+                ] %> 
+                
+                <% tagJSON.forEach((val)=> { %> 
+                    <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% if(JSON.parse(micropost.tag).includes(val.tag)){ %> checked="checked" <% } %>><%= val.name %>
+                <% }) %> 
+            </div>
             <div class="mb-3">
                 <button class="btn btn-info">更新する</button>
             </div>
