@@ -21,7 +21,7 @@ module.exports.createMicropost = async (req, res) => {
     try {
         micropostTransactionResult = await sequelize.transaction(async (t) => {
             // console.log("test")
-            // console.log("req.body.location", req.body.location)
+            console.log("req.body", req.body)
             const geoData = await geocoder.forwardGeocode({
                 query: req.body.location,
                 limit: 1
@@ -156,6 +156,8 @@ module.exports.renderEditForm = async (req, res) => {
         req.flash('error', 'お湯処は見つかりませんでした');
         return res.redirect('/microposts');
     }
+
+    console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
 
     res.render('microposts/edit', { micropost });
 }

@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+
 <div class="row">
     <h1 class="text-center">お湯処の編集</h1>
     <div class="offset-3 col-6">
@@ -52,6 +53,23 @@
                     </div>
                     <label for="image-<%= i %>">削除する</label>
                 <% }) %>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="description">タグ（複数回答可）</label>
+                <br>
+                <% const tagJSON = [
+                    {tag:'sauna',name:'サウナ'},
+                    {tag:'cold_water',name:'水風呂'},
+                    {tag:'open_air',name:'露天'},
+                    {tag:'food',name:'食事処'},
+                    {tag:'wifi',name:'Wifi'},
+                ] %> 
+
+                <% tagJSON.forEach((val)=> { %>                 
+                <span style="margin-right: 10px;">
+                    <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% if(micropost.tag && JSON.parse(micropost.tag).includes(val.tag)){ %> checked="checked" <% } %>><%= val.name %>
+                </span>
+                <% }) %> 
             </div>
             <div class="mb-3">
                 <button class="btn btn-info">更新する</button>

@@ -31,6 +31,24 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item text-muted"><%= micropost.location %></li>
+                <li class="list-group-item text-muted">
+                    <% const tagJSON = [
+                        {tag:'sauna',name:'サウナ'},
+                        {tag:'cold_water',name:'水風呂'},
+                        {tag:'open_air',name:'露天'},
+                        {tag:'food',name:'食事処'},
+                        {tag:'wifi',name:'Wifi'},
+                    ] %>
+
+                    <% tagJSON.forEach((val)=> { %>                 
+                        <span style="margin-right: 10px;">
+                            <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% 
+                            if(micropost.tag && JSON.parse(micropost.tag).includes(val.tag))
+                            { %> checked="checked" disabled="disabled" <% } else { %> disabled="disabled" <% } %>><%= val.name %>
+                        </span>
+                    <% }) %>
+                </li>
+
                 <li class="list-group-item">登録者：<%= micropost.user?.name %></li>
                 <li class="list-group-item">¥<%= micropost.price %>/泊</li>
             </ul>
@@ -54,11 +72,11 @@
         <form action="/microposts/<%= micropost.id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <div>
                 <fieldset class="starability-basic">
-                    <input type="radio" id="first-rate1" name="rating" checked value="1" />
+                    <input type="radio" id="first-rate1" name="rating" value="1" />
                     <label for="first-rate1" title="１">評価1</label>
                     <input type="radio" id="first-rate2" name="rating" value="2" />
                     <label for="first-rate2" title="２">評価2</label>
-                    <input type="radio" id="first-rate3" name="rating" value="3" />
+                    <input type="radio" id="first-rate3" name="rating" checked value="3" />
                     <label for="first-rate3" title="３">評価3</label>
                     <input type="radio" id="first-rate4" name="rating" value="4" />
                     <label for="first-rate4" title="４">評価4</label>
