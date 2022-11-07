@@ -14,7 +14,7 @@
         <div class="col-md-8">
             <div class="card-body">
                 <h5 class="card-title"><%= micropost.title %></h5> 
-                <p class="card-text">平均評価 <%= micropost.average_rating %></p>
+                <p class="card-text">平均評価 <%= Math.ceil(micropost.average_rating * Math.pow(10, 1) ) / Math.pow(10, 1) %></p>
                 <p class="card-text"><%= micropost.description %></p>
                 <p class="card-text">
                     <small class="text-muted"><%= micropost.location %></small>
