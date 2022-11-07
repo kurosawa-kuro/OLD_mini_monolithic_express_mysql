@@ -165,7 +165,7 @@ module.exports.renderEditForm = async (req, res) => {
         return res.redirect('/microposts');
     }
 
-    console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
+    // console.log("JSON.stringify(micropost, null, 2)", JSON.stringify(micropost, null, 2))
 
     res.render('microposts/edit', { micropost, tagJSON });
 }
