@@ -58,15 +58,15 @@
                 <label class="form-label" for="description">タグ（複数回答可）</label>
                 <br>
                 <% const tagJSON = [
-                    {tag:'white',name:'白'},
-                    {tag:'black',name:'黒'},
-                    {tag:'red',name:'赤'},
-                    {tag:'blue',name:'青'},
-                    {tag:'green',name:'緑'},
+                    {tag:'sauna',name:'サウナ'},
+                    {tag:'cold_water',name:'水風呂'},
+                    {tag:'open_air',name:'露天'},
+                    {tag:'food',name:'食事処'},
+                    {tag:'wifi',name:'Wifi'},
                 ] %> 
                 
                 <% tagJSON.forEach((val)=> { %> 
-                    <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% if(JSON.parse(micropost.tag).includes(val.tag)){ %> checked="checked" <% } %>><%= val.name %>
+                    <input type="checkbox" name="tag[]" value="<%= val.tag %>" <% if(micropost.tag && JSON.parse(micropost.tag).includes(val.tag)){ %> checked="checked" <% } %>><%= val.name %>
                 <% }) %> 
             </div>
             <div class="mb-3">
