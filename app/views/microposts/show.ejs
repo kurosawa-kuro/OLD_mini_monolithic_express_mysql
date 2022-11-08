@@ -43,7 +43,7 @@
                 </li>
 
                 <li class="list-group-item">登録者：<%= micropost.user?.name %></li>
-                <li class="list-group-item">¥<%= micropost.price %>/泊</li>
+                <li class="list-group-item">¥<%= micropost.price %></li>
             </ul>
             <% if(currentUser && micropost.user?.id == currentUser.id) { %>
             <div class="card-body">
