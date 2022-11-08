@@ -10,7 +10,6 @@
     <% if(loginUser.id !== user.id) { %> 
     <form action="http://localhost:3000/follower/<%= user.id %>" method="POST" >
         <div>
-            <!-- <input type="hidden" name="follower" value="<%= user.id %>"> -->
             <button class="btn btn-success" style="width: 130px;">add Follower</button>
         </div>
     </form>
@@ -22,8 +21,9 @@
 </div>
 
 <% for(let data of follower) { %>
+    <%     console.log("JSON.stringify(user.follower, null, 2)", JSON.stringify(follower, null, 2)) %> 
 <ul>
-    <li style="list-style:none"> <img src="<%= data.img_path %>" alt="" srcset="" style="height: 45px;">  <a style="text-decoration:none;" href="http://localhost:3000/user/<%= data.id %>"><%= data.name %></a></li>
+    <li style="list-style:none"> <img src="<%= data.img_path %>" alt="" srcset="" style="height: 45px;">  <a style="text-decoration:none;" href="/user/<%= data.id %>"><%= data.name %></a></li>
 </ul>
 <% } %> 
 
@@ -35,9 +35,12 @@
 <h2><%= user.reviews.length %> posted reviews</h2>
 
 <% if(user.reviews){ %> 
+
+
     <% for(let review of user.reviews) { %>
+
         <ul>
-            <li  style="list-style:none"><a style="text-decoration:none;" href="http://localhost:3000/microposts/<%= review.micropost_id %>"><img src="<%= review.rating %>" alt="" srcset=""><%= review.rating %> : <%= review.micropost.title %></a></li>
+            <li  style="list-style:none"><a style="text-decoration:none;" href="http://localhost:3000/microposts/<%= review.micropost_id %>"><img src="<%= review.rating %>" alt="" srcset=""><%= review.rating %> : <%= review.micropost?.title %></a></li>
         </ul>
     <% } %>
     </div>

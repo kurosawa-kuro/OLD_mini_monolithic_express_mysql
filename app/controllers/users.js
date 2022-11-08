@@ -43,6 +43,7 @@ module.exports.profile = async (req, res) => {
 
     const follower = followerFullData
     const user = { user: userdata, loginUser: req.user, follower }
+    console.log("user", JSON.stringify(user, null, 2))
 
     res.render('users/show', user);
 }
