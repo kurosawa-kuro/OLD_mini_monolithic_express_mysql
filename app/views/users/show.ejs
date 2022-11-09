@@ -5,12 +5,12 @@
 
 <h1>Profile</h1>
 <div style="display: flex; align-items: center;">
-<h2 style="margin-right: 20px;"> <img src="<%= user.img_path %>" alt="" srcset="" style="height: 60px;"> <%= user.name %></h2>
+<h2 style="margin-right: 20px;"> <img src="<%= user?.img_path %>" alt="" srcset="" style="height: 60px;"> <%= user.name %></h2>
 
     <% if(loginUser.id !== user.id) { %> 
     <form action="http://localhost:3000/follower/<%= user.id %>" method="POST" >
         <div>
-            <button class="btn btn-success" style="width: 130px;">add Follower</button>
+            
         </div>
     </form>
     <% } %>
@@ -21,7 +21,6 @@
 </div>
 
 <% for(let data of follower) { %>
-    <%     console.log("JSON.stringify(user.follower, null, 2)", JSON.stringify(follower, null, 2)) %> 
 <ul>
     <li style="list-style:none"> <img src="<%= data.img_path %>" alt="" srcset="" style="height: 45px;">  <a style="text-decoration:none;" href="/user/<%= data.id %>"><%= data.name %></a></li>
 </ul>
@@ -35,17 +34,13 @@
 <h2><%= user.reviews.length %> posted reviews</h2>
 
 <% if(user.reviews){ %> 
-
-
     <% for(let review of user.reviews) { %>
-
         <ul>
-            <li  style="list-style:none"><a style="text-decoration:none;" href="http://localhost:3000/microposts/<%= review.micropost_id %>"><img src="<%= review.rating %>" alt="" srcset=""><%= review.rating %> : <%= review.micropost?.title %></a></li>
+            <li  style="list-style:none"><a style="text-decoration:none;" href="http://localhost:3000/microposts/<%= review.micropost_id %>"><img  style="height: 35px;" src="<%= review.micropost.image %>" alt="" srcset=""><%= review.rating %> : <%= review.micropost?.title %></a></li>
         </ul>
     <% } %>
-    </div>
 <% } %> 
-
+</div>
 
 <div class="microposts">
 <h2><%= user.microposts.length %> posted microposts</h2>
